@@ -5,6 +5,7 @@ import { AuthProvider } from "@/app//Context/authContext" ;
 export default function Home() {
 
   return (
+
     <AuthProvider>
     
     <main className="flex min-h-screen flex-col items-center justify-between p-24">

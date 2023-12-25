@@ -10,6 +10,15 @@ const config: Config = {
   ],
   darkMode: 'class',
   theme: {
+      extend: {
+          fontFamily: {
+              satoshi: ['Satoshi', 'sans-serif'],
+              inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+              'primary-orange': '#FF5722',
+          }
+      },
     container: {
       center: true,
       padding: {
