@@ -11,6 +11,13 @@ const config: Config = {
   darkMode: 'class',
   theme: {
       extend: {
+          boxShadow: {
+              'buttons': '1px 2px 2px hsl(220deg 60% 50% / 0.2),\n' +
+                  '      2px 4px 4px hsl(220deg 60% 50% / 0.2),\n' +
+                  '      4px 8px 8px hsl(220deg 60% 50% / 0.2),\n' +
+                  '      8px 16px 16px hsl(220deg 60% 50% / 0.2),\n' +
+                  '      16px 32px 32px hsl(220deg 60% 50% / 0.2);',
+          },
           fontFamily: {
               satoshi: ['Satoshi', 'sans-serif'],
               inter: ['Inter', 'sans-serif'],
