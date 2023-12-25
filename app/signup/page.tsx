@@ -1,13 +1,13 @@
 "use client"
 import React, { useState, useContext } from 'react';
-import LoginCard from '@/components/Login/Login';
+import SignupCard from "@/components/Signup/Signup";
 
-const Login = () => {
+const Signup = () => {
     return (
         <div className=' h-screen flex items-center'>
-            <LoginCard/>
+            <SignupCard/>
         </div>
     );
 };
 
-export default Login;
+export default Signup;

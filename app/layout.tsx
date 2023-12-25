@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import {Providers} from "./providers";
 import "@/Styles/globals.css";
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,6 +31,7 @@ export default function RootLayout({
           <div className="app scroll-smooth">
             <Providers>
               {children}
+              <Toaster richColors position='top-center' />
             </Providers>
           </div>
       </div>

@@ -1,0 +1,6 @@
+.signupTitle{
+    background: linear-gradient(272deg, #FF1F00 7.09%, #e6b811 96.61%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
