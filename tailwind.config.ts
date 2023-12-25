@@ -1,22 +1,35 @@
 import type { Config } from 'tailwindcss'
+import { nextui } from '@nextui-org/react'
 
 const config: Config = {
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}'
   ],
+  darkMode: 'class',
   theme: {
-    extend: {
-      fontFamily: {
-        satoshi: ['Satoshi', 'sans-serif'],
-        inter: ['Inter', 'sans-serif'],
+      extend: {
+          fontFamily: {
+              satoshi: ['Satoshi', 'sans-serif'],
+              inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+              'primary-orange': '#FF5722',
+          }
       },
-      colors: {
-        'primary-orange': '#FF5722',
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: '1rem',
+        md: '1.5rem',
+        lg: '2rem'
       }
-    },
+    }
   },
-  plugins: [],
+  plugins: [
+    nextui()
+  ]
 }
 export default config

@@ -1,6 +1,8 @@
-import type {Metadata} from 'next'
-import {Inter} from 'next/font/google'
-import '@/styles/globals.css'
+
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import {Providers} from "./providers";
+import "@/Styles/globals.css";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -14,16 +16,26 @@ export default function RootLayout({
                                    }: {
     children: React.ReactNode
 }) {
-    return (
-        <html lang="en">
-        <body className={inter.className}>
-        <div className="main">
-            <div className="gradient"/>
-        </div>
-        <div className="app">
-            {children}
-        </div>
-        </body>
-        </html>
-    )
+
+  return (
+    <html lang="en">
+      {/* <body className={inter.className}>
+        <Providers>
+          {children}
+        </Providers>
+      </body> */}
+      <body className={inter.className + " w-screen max-w-full overflow-x-hidden "}>
+      <div className="relative overflow-x-hidden">
+          <div className="main">
+              <div className="gradient" />
+          </div>
+          <div className="app scroll-smooth">
+            <Providers>
+              {children}
+            </Providers>
+          </div>
+      </div>
+      </body>
+    </html>
+  )
 }
