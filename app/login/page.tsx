@@ -1,6 +1,7 @@
 "use client"
 import React, { useState, useContext } from 'react';
 import { AuthContext } from "@/app/Context/authContext" ; // replace with the actual path
+import LoginCard from "@/components/Login";
 
 const Login = () => {
     const API_URL = process.env.API_URL || 'localhost:9000'; // replace with your actual API URL 
@@ -39,7 +40,7 @@ const Login = () => {
     };
     return (
         <div>
-            <h2>Login</h2>
+            {/* <h2>Login</h2>
             <form onSubmit={handleLogin}>
                 <label>
                     Username:
@@ -52,7 +53,8 @@ const Login = () => {
                 </label>
                 <br />
                 <button type="submit">Login</button>
-            </form>
+            </form> */}
+            <LoginCard/>
         </div>
     );
 };
