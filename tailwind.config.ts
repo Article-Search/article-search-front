@@ -12,11 +12,11 @@ const config: Config = {
   theme: {
       extend: {
           boxShadow: {
-              'buttons': '1px 2px 2px hsl(220deg 60% 50% / 0.2),\n' +
-                  '      2px 4px 4px hsl(220deg 60% 50% / 0.2),\n' +
-                  '      4px 8px 8px hsl(220deg 60% 50% / 0.2),\n' +
-                  '      8px 16px 16px hsl(220deg 60% 50% / 0.2),\n' +
-                  '      16px 32px 32px hsl(220deg 60% 50% / 0.2);',
+              'buttons': '1px 1px 1px rgba(25, 25, 112, 0.1),\n' +
+                  '      2px 2px 2px rgba(25, 25, 112, 0.1),\n' +
+                  '      3px 3px 3px rgba(25, 25, 112, 0.1),\n' +
+                  '      4px 4px 4px rgba(25, 25, 112, 0.1),\n' +
+                  '      5px 5px 5px rgba(25, 25, 112, 0.1);',
           },
           fontFamily: {
               satoshi: ['Satoshi', 'sans-serif'],

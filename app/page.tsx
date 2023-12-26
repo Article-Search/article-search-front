@@ -11,7 +11,7 @@ export default function Home() {
         <AuthProvider>
             {/*nothing*/}
                 <NavigationBar/>
-            <main className="w-full h-screen flex flex-col items-center justify-center">
+            <main className="w-full h-screen flex flex-col items-center mt-10">
                 <h1 className="head_text text-center">
                     Discover & Learn with
                     <br className="max-md:hidden"/>
@@ -21,7 +21,7 @@ export default function Home() {
                     a platform that will allow you to search and
                     read the latest published research articles
                 </p>
-                <div className="button-container flex items-center justify-center gap-40 mt-5 pb-2">
+                <div className="button-container flex items-center justify-center gap-40 max-md:gap-10 max-md:flex-col mt-5 pb-2">
                     <Button className="bg-black shadow-buttons" size="lg" startContent={
                         <Image
                             src="/assets/icons/arrow.svg"
@@ -32,7 +32,7 @@ export default function Home() {
                     }>
                         <p className="text-sm font-bold text-white">Start for free</p>
                     </Button>
-                    <Button className="bg-white drop-shadow-2xl" size="lg" startContent={
+                    <Button className="bg-white shadow-buttons" size="lg" startContent={
                         <Image
                             src="/assets/icons/github.svg"
                             alt="Arrow"
