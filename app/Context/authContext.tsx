@@ -3,9 +3,10 @@ import React, { createContext, useState } from 'react';
 
 interface User {
     id: string;
-    name: string;
+    first_name: string;
     email: string;
-  // add other fields as needed
+    last_name:string;
+  //TODO add the other fields
 }
 
 interface AuthContextProps {
