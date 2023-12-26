@@ -17,16 +17,17 @@ import Image from "next/image";
 import {AuthContext} from '@/app/Context/authContext';
 import {useContext} from "react";
 
-export default function NavigationBar() {
+export default function NavigationBar(props: { returnHome?: boolean; }) {
+    const returnHome= props ? props.returnHome || false : false;
     const {user} = useContext(AuthContext);
     return (
-        <Navbar className="bg-transparent" position="static">
+        <Navbar className="bg-transparent pt-3" position="static">
             <NavbarBrand>
                 <Image
                     src="/assets/images/logo.png"
                     alt="Logo"
-                    width={100}
-                    height={100}
+                    width={150}
+                    height={150}
                 />
             </NavbarBrand>
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
@@ -47,7 +48,15 @@ export default function NavigationBar() {
                 {/*</NavbarItem>*/}
             </NavbarContent>
             <NavbarContent justify="end">
-                {!user && (
+                {returnHome && (
+                    <NavbarItem>
+                    <Button as={Link} href="/search" className="bg-black" variant="shadow" size="lg">
+                        <Image src="/assets/icons/home.svg" alt="Arrow Left" width={20} height={20} />
+                        <p className="text-sm font-bold text-white">Go Back</p>
+                    </Button>
+                </NavbarItem>
+                )}
+                {!user && !returnHome && (
                     <>
                         <NavbarItem className="hidden lg:flex">
                             <Link href="/login" className="text-[#6F7378] underline gap-1">
@@ -67,7 +76,7 @@ export default function NavigationBar() {
                         </NavbarItem>
                     </>
                 )}
-                {user && (
+                {user && !returnHome && (
                     <Dropdown placement="bottom-end">
                         <DropdownTrigger>
                             <Avatar
