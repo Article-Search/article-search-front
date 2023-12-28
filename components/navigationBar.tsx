@@ -70,7 +70,7 @@ export default function NavigationBar(props: { returnHome?: boolean; }) {
                             </Link>
                         </NavbarItem>
                         <NavbarItem>
-                            <Button as={Link} href="signup" className="bg-black" variant="shadow" size="lg">
+                            <Button as={Link} href="signup" className="bg-black shadow-buttons" variant="shadow" size="lg">
                                 <p className="text-sm font-bold text-white">Sign up</p>
                             </Button>
                         </NavbarItem>
@@ -84,7 +84,7 @@ export default function NavigationBar(props: { returnHome?: boolean; }) {
                                 as="button"
                                 className="transition-transform"
                                 color="secondary"
-                                name={user.name}
+                                name={user.first_name + " " +user.last_name}
                                 size="sm"
                                 src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
                             />
