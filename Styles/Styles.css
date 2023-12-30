@@ -132,7 +132,7 @@ html {
 
 /* Feed Component */
 .feed {
-    @apply mt-16 mx-auto w-full max-w-xl flex justify-center items-center flex-col gap-2;
+    @apply w-full max-w-3xl flex justify-center items-center flex-col gap-2;
 }
 
 /* Form Component */

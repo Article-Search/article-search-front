@@ -11,11 +11,11 @@ for (let i = 0; i < 30; i++) {
         id: `article-${i}`,
         title: `Article Title ${i}`,
         content: `This is the content of Article ${i}`,
-        summary: `This is the summary of Article ${i}`,
+        summary: `This is the summary of Article ${i}This is the summary of Article ${i}This is the summary of Article ${i}This is the summary of Article ${i}This is the summary of Article ${i}This is the summary of Article ${i}This is the summary of Article ${i}This is the summary of Article ${i}This is the summary of Article ${i}This is the summary of Article ${i}`,
         authors: [author],
         institutions: [`Institution ${i}`],
         publishDate: new Date(),
-        keywords: [`keyword1`, `keyword2`],
+        keywords: [`keyword1`, `keyword2`, `keyword3`, `keyword4`, `keyword5`, `keyword6`],
         pdfUrl: `http://example.com/article-${i}.pdf`,
         references: [`http://example.com/reference-${i}`],
     };
