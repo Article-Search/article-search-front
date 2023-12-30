@@ -1,6 +1,6 @@
 import Image from 'next/image'
 // use the authcontext provider
-import {AuthProvider} from "@/app//Context/authContext";
+import {AuthProvider} from "@/app/Context/authContext";
 import NavigationBar from "@/components/navigationBar";
 import {Button} from "@nextui-org/react";
 
@@ -10,7 +10,6 @@ export default function Home() {
 
         <AuthProvider>
             {/*nothing*/}
-                <NavigationBar/>
             <main className="w-full h-screen flex flex-col items-center mt-10">
                 <h1 className="head_text text-center">
                     Discover & Learn with
