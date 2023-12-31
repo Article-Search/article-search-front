@@ -19,7 +19,7 @@ export default function SearchInput() {
                     endContent={
                         <>
                             <div className="border-l h-full mx-2"></div>
-                            <p className="text-[#959595] text-2xl font-bold">Search</p>
+                            <p className={`text-2xl font-bold ${searchText ? 'text-green-500' : 'text-[#959595]'} transition`}>Search</p>
                         </>
                     }
                 />

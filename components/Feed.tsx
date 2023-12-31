@@ -8,6 +8,19 @@ interface FeedProps {
 }
 
 export default function Feed({articles, searchValue}: FeedProps) {
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        let card = e.currentTarget;
+        let rect = card.getBoundingClientRect();
+        let x = e.clientX - rect.left - card.offsetWidth / 2;
+        let y = e.clientY - rect.top - card.offsetHeight / 2;
+        // Change the transformations here to adjust the 3D effect
+        card.style.transform = `rotateY(${x / 12}deg) rotateX(${-y / 2}deg)`;
+    };
+
+    const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+        let card = e.currentTarget;
+        card.style.transform = `rotateY(0deg) rotateX(0deg) scale(1)`;
+    };
     return (
         <div className="flex flex-col justify-center gap-12">
             <ScrollShadow className="ScrollShadow w-screen max-w-4xl h-screen min-h-screen">
@@ -15,9 +28,13 @@ export default function Feed({articles, searchValue}: FeedProps) {
                     {articles.map((article, index) => (
                         <Card
                             key={index}
+                            className="card-hover-effect transition"
+                            onMouseMove={handleMouseMove}
+                            onMouseLeave={handleMouseLeave}
+                            shadow="md"
                         >
                             <CardBody>
-                                <div className="flex gap-4 justify-center w-[41rem] h-[8rem]">
+                                <div className="flex gap-4 justify-center w-[41rem] h-[7rem] px-4">
                                     <div className="flex flex-col items-center justify-center w-2/5">
                                         <Image
                                             src="/assets/icons/document.svg"
@@ -27,7 +44,7 @@ export default function Feed({articles, searchValue}: FeedProps) {
                                             className="object-contain"
                                         />
                                     </div>
-                                    <div className="flex flex-col gap-2">
+                                    <div className="flex flex-col gap-2 justify-center">
                                         <h1 className="text-xl font-bold">{article.title}</h1>
                                         <div className="flex gap-2">
                                             {article.keywords.slice(0, 3).map((keyword, index) => (
@@ -39,11 +56,9 @@ export default function Feed({articles, searchValue}: FeedProps) {
                                                       variant="flat" size="md">+{article.keywords.length - 3}</Chip>
                                             )}
                                         </div>
-                                        <div className="flex items-center justify-center">
-                                            <p className="text-gray-400 text-small line-clamp-2">
-                                                {article.summary}
-                                            </p>
-                                        </div>
+                                        <p className="text-gray-400 text-small line-clamp-2">
+                                            {article.summary}
+                                        </p>
                                     </div>
                                 </div>
                             </CardBody>
