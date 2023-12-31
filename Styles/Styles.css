@@ -88,7 +88,7 @@ html {
 }
 
 .head_text {
-    @apply mt-5 text-[6rem] font-extrabold leading-[1.15] text-black max-sm:text-6xl;
+    @apply mt-5 text-[5rem] font-extrabold leading-[1.15] text-black max-sm:text-6xl;
 }
 
 .orange_gradient {
@@ -190,4 +190,12 @@ html {
 
 .primary{
     color:#006FEE;
+}
+
+.card-hover-effect {
+    transition: transform 0.5s;
+}
+
+.card-hover-effect:hover {
+    transform: scale(1.05) rotateY(10deg);
 }

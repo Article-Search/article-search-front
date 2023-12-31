@@ -10,7 +10,6 @@ export default function Admin() {
     
     return (
         <div>
-            <NavigationBar/>
             <div className=' w-2/3 m-auto pb-7'>
                 <h1 className=' text-4xl font-bold felx items-center py-10  '>
                     <Image src={wavingHand} alt='waving hand' height={70} width={70} className=' inline-block mr-3'></Image> Welcome Back <span className='purple_gradient'>Admin</span>

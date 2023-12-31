@@ -8,19 +8,6 @@ interface FeedProps {
 }
 
 export default function Feed({articles, searchValue}: FeedProps) {
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-        let card = e.currentTarget;
-        let rect = card.getBoundingClientRect();
-        let x = e.clientX - rect.left - card.offsetWidth / 2;
-        let y = e.clientY - rect.top - card.offsetHeight / 2;
-        // Change the transformations here to adjust the 3D effect
-        card.style.transform = `rotateY(${x / 12}deg) rotateX(${-y / 2}deg)`;
-    };
-
-    const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-        let card = e.currentTarget;
-        card.style.transform = `rotateY(0deg) rotateX(0deg) scale(1)`;
-    };
     return (
         <div className="flex flex-col justify-center gap-12">
             <ScrollShadow className="ScrollShadow w-screen max-w-4xl h-screen min-h-screen">
@@ -29,8 +16,6 @@ export default function Feed({articles, searchValue}: FeedProps) {
                         <Card
                             key={index}
                             className="card-hover-effect transition"
-                            onMouseMove={handleMouseMove}
-                            onMouseLeave={handleMouseLeave}
                             shadow="md"
                         >
                             <CardBody>
