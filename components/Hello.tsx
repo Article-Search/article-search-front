@@ -9,7 +9,7 @@ export default function Hello() {
     return (
         <h1 className='head_text text-center'>
             <Image src={wavingHand} alt='waving hand' height={80} width={80}
-                   className=' inline-block mr-3'/>
+                   className=' inline-block mr-7 pb-4'/>
             Welcome Back
             <br className="max-md:hidden"/>
             <span className='purple_gradient text-center'>{user ? user.first_name : "there"}</span>

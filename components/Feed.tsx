@@ -10,7 +10,7 @@ interface FeedProps {
 export default function Feed({articles, searchValue}: FeedProps) {
     return (
         <div className="flex flex-col justify-center gap-12">
-            <ScrollShadow className="ScrollShadow w-screen max-w-4xl h-screen min-h-screen">
+            <ScrollShadow className="ScrollShadow w-screen max-w-4xl h-[61vh] overscroll-x-none">
                 <div className="flex flex-col items-center justify-center gap-9 w-screen max-w-4xl p-4">
                     {articles.map((article, index) => (
                         <Card
@@ -30,7 +30,7 @@ export default function Feed({articles, searchValue}: FeedProps) {
                                         />
                                     </div>
                                     <div className="flex flex-col gap-2 justify-center">
-                                        <h1 className="text-xl font-bold">{article.title}</h1>
+                                        <h1 className="text-xl font-bold line-clamp-1">{article.title}</h1>
                                         <div className="flex gap-2">
                                             {article.keywords.slice(0, 3).map((keyword, index) => (
                                                 <Chip key={index} className="shrink-0 text-[#17C964] bg-[#E8FAF0]"
