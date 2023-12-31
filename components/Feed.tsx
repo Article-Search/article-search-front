@@ -17,7 +17,7 @@ export default function Feed({articles, searchValue}: FeedProps) {
                             key={index}
                         >
                             <CardBody>
-                                <div className="flex gap-4 justify-center">
+                                <div className="flex gap-4 justify-center w-[41rem] h-[8rem]">
                                     <div className="flex flex-col items-center justify-center w-2/5">
                                         <Image
                                             src="/assets/icons/document.svg"
@@ -39,8 +39,8 @@ export default function Feed({articles, searchValue}: FeedProps) {
                                                       variant="flat" size="md">+{article.keywords.length - 3}</Chip>
                                             )}
                                         </div>
-                                        <div>
-                                            <p className="shrink-0 text-gray-400 text-small overflow-hidden overflow-ellipsis">
+                                        <div className="flex items-center justify-center">
+                                            <p className="text-gray-400 text-small line-clamp-2">
                                                 {article.summary}
                                             </p>
                                         </div>

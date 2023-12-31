@@ -9,7 +9,7 @@ export default function Page() {
     const params = useParams<{ searchValue: string}>()
     let { searchValue } = params;
     return (
-        <section className="flex flex-col items-center gap-9">
+        <section className="flex flex-col items-center gap-9 mt-16">
                 <div className="flex flex-col gap-11">
                     <SearchInput/>
                     <div className="flex justify-between items-center px-3">
