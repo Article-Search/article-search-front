@@ -1,0 +1,73 @@
+import NavigationBar from '@/components/navigationBar'
+import wavingHand from '@/public/assets/icons/WavingHand.png'
+import { Button, Card } from '@nextui-org/react'
+import edit from '@/public/assets/icons/edit-primary.svg'
+import Image from 'next/image'
+import FileUpload from '@/components/FileUpload/FileUpload'
+import drive from '@/public/assets/icons/google-drive.svg'
+export default function Admin() {
+    //TODO : make all components dynamic by fetching data from api , i need format of the data to do that and to not make a lot of changes in the code
+    
+    return (
+        <div>
+            <NavigationBar/>
+            <div className=' w-2/3 m-auto pb-7'>
+                <h1 className=' text-4xl font-bold felx items-center py-10  '>
+                    <Image src={wavingHand} alt='waving hand' height={70} width={70} className=' inline-block mr-3'></Image> Welcome Back <span className='purple_gradient'>Admin</span>
+                </h1>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-14 p-3'>
+                    <Card className=' px-7 py-3'>
+                        <p className=' font-bold text-xl text-gray-500'>Total Users</p>
+                        <p className='m-auto text-5xl font-black px-24 pt-5 pb-8'>25</p>
+                    </Card>
+                    <Card className=' px-7 py-3'>
+                        <p className=' font-bold text-xl text-gray-500'>Total Articles</p>
+                        <p className='m-auto text-5xl font-black px-24 pt-5 pb-8'>32</p>
+                    </Card>
+                </div>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-14 p-3'>
+                <Card className=' px-7 py-3'>
+                        <p className=' font-bold text-xl text-gray-500'>Add Articles</p>
+                        <div className=' flex justify-center w-full '>
+                            <FileUpload/>
+                        </div>
+                        <p className='mx-auto text-gray-500 '>-or-</p>
+                        <Button size='sm' className='w-2/5 m-auto primary-50 primary mt-2 '>
+                            <Image src={drive} alt="edit"></Image>
+                            Drive link
+                        </Button>
+                    </Card>
+                    <Card className=' px-7 py-3'>
+                        <p className=' font-bold text-xl text-gray-500 mb-2'>Moderators</p>
+                        <div className=' flex flex-row justify-between my-1 '>
+                            <div className=' ml-1'>
+                                <p className=' font-semibold text-sm '>Ilyes arabet</p>
+                                <p className=' text-gray-500 font-normal text-xs'>ilyesarabet@gmail.com</p>
+                            </div>
+                            <p className=' text-xs text-gray-500'>15/12/2023</p>
+                        </div>
+                        <div className=' flex flex-row justify-between my-1 '>
+                            <div className=' ml-1'>
+                                <p className=' font-semibold text-sm  '>Ilyes arabet</p>
+                                <p className=' text-gray-500 font-normal text-xs'>ilyesarabet@gmail.com</p>
+                            </div>
+                            <p className=' text-xs text-gray-500'>15/12/2023</p>
+                        </div>
+                        <div className=' flex flex-row justify-between my-1 '>
+                            <div className=' ml-1'>
+                                <p className=' font-semibold text-sm  '>Ilyes arabet</p>
+                                <p className=' text-gray-500 font-normal text-xs'>ilyesarabet@gmail.com</p>
+                            </div>
+                            <p className=' text-xs text-gray-500'>15/12/2023</p>
+                        </div>
+                        <Button size='sm' className='w-2/5 m-auto primary-50 primary mt-4 mb-1'>
+                            <Image src={edit} alt="edit"></Image>
+                            manage all
+                        </Button>
+                    </Card>
+                    
+                </div>
+            </div>
+        </div>
+    )
+}

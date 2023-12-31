@@ -184,3 +184,10 @@ html {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+.primary-50{
+    background-color: #E6F1FE;
+}
+
+.primary{
+    color:#006FEE;
+}
