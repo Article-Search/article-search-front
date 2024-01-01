@@ -2,6 +2,15 @@
 import React, { createContext, useState } from 'react';
 import { User } from '@/types';
 
+function parseJwt(token: string) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+
+    return JSON.parse(jsonPayload);
+};
 
 interface AuthContextProps {
     user: User | null;
@@ -18,11 +27,18 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<User | null>(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            const user = parseJwt(token);
+            return user;
+        }
+        return null;
+    });
 
     return (
-    <AuthContext.Provider value={{ user, setUser }}>
-        {children}
-    </AuthContext.Provider>
+        <AuthContext.Provider value={{ user, setUser }}>
+            {children}
+        </AuthContext.Provider>
     );
 };

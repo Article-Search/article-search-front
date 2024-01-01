@@ -1,16 +1,17 @@
 import React from "react";
 const columns = [
   {name: "NAME", uid: "name"},
-  {name: "ROLE", uid: "role"},
-  {name: "STATUS", uid: "status"},
+  {name: "Email", uid: "email"},
   {name: "ACTIONS", uid: "actions"},
 ];
 
 const users = [
   {
     id: 1,
-    name: "Tony Reichert",
-    role: "CEO",
+    first_name: "Tony",
+    last_name: "Reichert",
+    role: "Moderator",
+    username: "tony.reichert",
     team: "Management",
     status: "active",
     age: "29",
@@ -19,7 +20,10 @@ const users = [
   },
   {
     id: 2,
-    name: "Zoey Lang",
+    // name: "Zoey Lang",
+    first_name: "Zoey",
+    last_name: "Lang",
+    username: "zoey.lang",
     role: "Technical Lead",
     team: "Development",
     status: "paused",
@@ -29,7 +33,10 @@ const users = [
   },
   {
     id: 3,
-    name: "Jane Fisher",
+    // name: "Jane Fisher",
+    first_name: "Jane",
+    last_name: "Fisher",
+    username: "jane.fisher",
     role: "Senior Developer",
     team: "Development",
     status: "active",
@@ -39,7 +46,10 @@ const users = [
   },
   {
     id: 4,
-    name: "William Howard",
+    // name: "William Howard",
+    first_name: "William",
+    last_name: "Howard",
+    username: "william.howard",
     role: "Community Manager",
     team: "Marketing",
     status: "vacation",
@@ -49,7 +59,10 @@ const users = [
   },
   {
     id: 5,
-    name: "Kristen Copper",
+    // name: "Kristen Copper",
+    first_name: "Kristen",
+    last_name: "Copper",
+    username: "kristen.copper",
     role: "Sales Manager",
     team: "Sales",
     status: "active",
