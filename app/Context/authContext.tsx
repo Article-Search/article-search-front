@@ -1,5 +1,5 @@
 "use client"
-import React, { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { User } from '@/types';
 
 function parseJwt(token: string) {
@@ -27,14 +27,15 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [user, setUser] = useState<User | null>(() => {
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
             const user = parseJwt(token);
-            return user;
+            setUser(user);
         }
-        return null;
-    });
+    }, []);
 
     return (
         <AuthContext.Provider value={{ user, setUser }}>
