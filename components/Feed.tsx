@@ -7,7 +7,6 @@ import {
     Modal,
     ModalBody,
     ModalContent,
-    ModalFooter,
     ModalHeader,
     ScrollShadow,
     useDisclosure
@@ -15,6 +14,7 @@ import {
 import {Article} from "@/types"
 import Image from "next/image";
 import {useState} from "react";
+import {motion} from "framer-motion";
 
 interface FeedProps {
     articles: Article[];
@@ -75,43 +75,47 @@ export default function Feed({articles, searchValue}: FeedProps) {
                     ))}
                 </div>
             </ScrollShadow>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop="blur" size="4xl">
-                <ModalContent className="max-h-[90vh] h-[90vh] overflow-scroll p-4" >
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop="blur" size="4xl" placement="center">
+                <ModalContent className="max-h-[90vh] h-[90vh] max-md:h-[60vh] overflow-scroll p-4" >
                         <>
                             <ModalHeader className="flex justify-between items-center">
                                 <h1 className="text-4xl font-bold ">
                                     {articles[cardIndex].title}
                                 </h1>
-                                <Button isIconOnly className="bg-transparent">
-                                    <Image src="/assets/icons/star.svg" alt="Star" width={35} height={35}/>
+                                <Button isIconOnly disableRipple className="bg-transparent">
+                                    <motion.div whileTap={{scale: 1.2}}>
+                                        <Image src="/assets/icons/star.svg" alt="Star" width={35} height={35}/>
+                                    {/*    TODO: use a filled image if it's already in the user's favorite articles*/}
+                                    </motion.div>
                                 </Button>
                             </ModalHeader>
-                            <ModalBody >
-                                <div className="flex flex-col">
+                            <ModalBody>
+                                <div className="flex flex-col gap-4">
                                     <div className="flex gap-4 w-full flex-wrap">
                                         {articles[cardIndex].keywords.map((keyword, index) => (
                                             <Chip key={index} className="shrink-0 text-[#17C964] bg-[#E8FAF0] text-xl"
                                                   variant="flat" size="md">{keyword}</Chip>
                                         ))}
                                     </div>
-                                    <div className="my-2 text-gray-700">
-                                        <h2 className="text-2xl font-bold">Description</h2>
-                                        <p className="text-lg">{articles[cardIndex].summary}</p>
-                                    {/*    TODO: change to summary, I'm using the content just for testing*/}
+                                    <div className="flex flex-col gap-3">
+                                        <h2 className="text-2xl text-[#6A6F75] font-bold">Description</h2>
+                                        <ScrollShadow className="h-52">
+                                            {articles[cardIndex].content}
+                                        </ScrollShadow>
                                     </div>
-                                    <div className="my-2 text-gray-700">
-                                        <h2 className="text-2xl font-bold">Authors</h2>
-                                        <p className="text-lg">{articles[cardIndex].authors.map(author => `${author.first_name} ${author.last_name}`).join(', ')}</p>
+                                    <div className="flex flex-col gap-3">
+                                    <h2 className="text-2xl text-[#6A6F75] font-bold">Authors</h2>
+                                        <p className="">{articles[cardIndex].authors.map(author => `${author.first_name} ${author.last_name}`).join(', ')}</p>
                                     </div>
-                                    <div className="my-2 text-gray-700">
-                                        <h2 className="text-2xl font-bold">Institutions</h2>
-                                        <p className="text-lg">{articles[cardIndex].institutions.join(', ')}</p>
+                                    <div className="flex flex-col gap-3">
+                                        <h2 className="text-2xl text-[#6A6F75] font-bold">Institutions</h2>
+                                        <p className="">{articles[cardIndex].institutions.join(', ')}</p>
                                     </div>
-                                    <div className="my-2 text-gray-700">
-                                        <h2 className="text-2xl font-bold">References</h2>
-                                        <ul className="list-disc pl-5">
+                                    <div className="flex flex-col gap-3">
+                                        <h2 className="text-2xl text-[#6A6F75] font-bold">References</h2>
+                                        <ul className="list-disc ml-5">
                                             {articles[cardIndex].references.map((reference, index) => (
-                                                <li key={index} className="text-lg my-1">
+                                                <li key={index} className="">
                                                     {reference}
                                                 </li>
                                             ))}
