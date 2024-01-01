@@ -11,7 +11,7 @@ export default function Page() {
         <>
             <main className="w-full h-screen flex flex-col items-center mt-10">
                 <Hello />
-                <div className="mt-20"><SearchInput/></div>
+                <div className="mt-16"><SearchInput/></div>
             </main>
         </>
     );
