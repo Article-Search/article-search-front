@@ -241,7 +241,7 @@ type ColumnType = {
             return "";
         }
         },
-        []
+        [onOpen]
     );
 
     const renderHeader = (column: ColumnType) => (
