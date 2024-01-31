@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useContext ,useEffect } from 'react';
 import {Card , Button, Link , useDisclosure , Modal , ModalContent , ModalFooter , ModalBody , ModalHeader, Input} from "@nextui-org/react";
-import { AuthContext } from '../../Context/authContext';
+import { AuthContext } from '../Context/authContext';
 import edit from "@/public/assets/icons/edit.svg"
 import Image from 'next/image'
 import adminRole from "@/public/assets/images/Role-admin.svg"
