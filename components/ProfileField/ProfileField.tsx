@@ -24,7 +24,7 @@ export default function ProfileField(props :{fieldData : string , fieldName:stri
                         <div className=' flex flex-row justify-between items-center'>
                             <p className=' font-medium text-md'> {data} </p>
                             <Button  onPress={onOpen} className='flex flex-row justify-around items-center'>
-                                <Image src={edit} alt="edit" width={20} height={20} />
+                                <Image src="/assets/icons/edit.svg" alt="edit" width={20} height={20} />
                                 <p className=' font-bold'>Edit</p>
                             </Button>
                         </div>

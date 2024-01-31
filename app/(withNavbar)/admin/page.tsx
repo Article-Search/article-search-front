@@ -1,3 +1,4 @@
+"use client"
 import NavigationBar from '@/components/navigationBar'
 import wavingHand from '@/public/assets/icons/WavingHand.png'
 import { Button, Card } from '@nextui-org/react'
@@ -6,9 +7,12 @@ import Image from 'next/image'
 import FileUpload from '@/components/FileUpload/FileUpload'
 import drive from '@/public/assets/icons/google-drive.svg'
 import Link from 'next/link'
-export default function Admin() {
+import isAuth from '@/components/isAuth'
+function Admin() {
     //TODO : make all components dynamic by fetching data from api , i need format of the data to do that and to not make a lot of changes in the code
     
+
+
     return (
         <div>
             <div className=' w-2/3 m-auto pb-7'>
@@ -33,7 +37,7 @@ export default function Admin() {
                         </div>
                         <p className='mx-auto text-gray-500 '>-or-</p>
                         <Button size='sm' className='w-2/5 m-auto primary-50 primary mt-2 '>
-                            <Image src={drive} alt="edit"></Image>
+                            <Image src="/assets/icons/google-drive.svg" width={20} height={20} alt="edit"></Image>
                             Drive link
                         </Button>
                     </Card>
@@ -62,7 +66,7 @@ export default function Admin() {
                         </div>
                         <Link href='/admin/editMods' className='m-auto w-2/5'>
                         <Button size='sm' className='w-full primary-50 primary mt-4 mb-1'>
-                            <Image src={edit} alt="edit"></Image>
+                            <Image src="/assets/icons/edit-primary.svg" width={20} height={20} alt="edit"></Image>
                             manage all
                         </Button>
                         </Link>
@@ -73,3 +77,4 @@ export default function Admin() {
         </div>
     )
 }
+export default isAuth(Admin,1);

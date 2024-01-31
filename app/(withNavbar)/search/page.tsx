@@ -1,11 +1,13 @@
+"use client"
 import NavigationBar from "@/components/navigationBar";
 import {Button} from "@nextui-org/react";
 import Image from "next/image";
 import SearchInput from "@/components/SearchInput";
 import Hello from "@/components/Hello";
+import isAuth from "@/components/isAuth";
 
 
-export default function Page() {
+function Page() {
 
     return (
         <>
@@ -16,3 +18,5 @@ export default function Page() {
         </>
     );
 }
+
+export default isAuth(Page,3);

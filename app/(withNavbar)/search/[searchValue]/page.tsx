@@ -5,8 +5,9 @@ import { useParams } from "next/navigation";
 import {articles} from "@/constants";
 import Image from "next/image";
 import {Popover, PopoverTrigger, PopoverContent, Button, Input} from "@nextui-org/react";
+import isAuth from "@/components/isAuth";
 
-export default function Page() {
+function Page() {
     const params = useParams<{ searchValue: string}>()
     let { searchValue } = params;
     return (
@@ -52,3 +53,5 @@ export default function Page() {
         </section>
     );
 }
+
+export default isAuth(Page,3);

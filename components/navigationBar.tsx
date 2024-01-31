@@ -92,13 +92,9 @@ export default function NavigationBar(props: { returnHome?: boolean; }) {
                         <DropdownMenu aria-label="Profile Actions" variant="flat">
                             <DropdownItem key="profile" className="h-14 gap-2">
                                 <p className="font-semibold">Signed in as</p>
-                                <p className="font-semibold">user.email</p>
+                                <p className="font-semibold">{user.email}</p>
                             </DropdownItem>
-                            <DropdownItem key="settings">My Settings</DropdownItem>
-                            <DropdownItem key="analytics">Analytics</DropdownItem>
-                            <DropdownItem key="system">System</DropdownItem>
-                            <DropdownItem key="configurations">Configurations</DropdownItem>
-                            <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+                            <DropdownItem key="settings"><Link href="/profile">My Profile</Link></DropdownItem>
                             <DropdownItem key="logout" color="danger">Log Out</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>

@@ -11,6 +11,8 @@ import NavigationBar from '@/components/navigationBar';
 import ProfileField from '@/components/ProfileField/ProfileField';
 import { redirect } from 'next/navigation';
 import { toast } from 'sonner';
+import isAuth from '@/components/isAuth';
+import { useRouter } from 'next/navigation';
 
 const API_URL = process.env.API_URL || 'localhost:9000';
 
@@ -19,6 +21,14 @@ const ProfilePage = () => {
     const [firstName, setFirstName] = useState('Mohamed Ilyes');
     const [lastName, setLastName] = useState('Arabet');
     const [emailAccount, setEmailAccount] = useState('ilyesarabet@gmail.com');
+    // const {user}=useContext(AuthContext);
+    // const router = useRouter();
+
+    // useEffect(() => {
+    //     if(!user){
+    //         router.push('/login');
+    //     }
+    // },)
 
     {/*TODO uncomment this code */}
     {/*//////////////////////////////// */}
@@ -96,7 +106,7 @@ const ProfilePage = () => {
                     </div>
                     {/* */}
 
-                    <Image src={adminRole} alt="adminRole" className=' h-full  rounded-r-sm-md ' />
+                    <Image src="/assets/images/Role-admin.svg" width={100} height={100}  alt="adminRole" className=' h-full  rounded-r-sm-md ' />
                 </div>
 
                 <div className='border-2 border-solid border-gray-300 rounded-md shadow-sm pl-7 my-1 mx-8 flex flex-row justify-between items-center'>
@@ -106,7 +116,7 @@ const ProfilePage = () => {
                     </div>
                     {/* */}
 
-                    <Image src={lockImage} alt="lock" className=' h-full  rounded-r-sm-md ' />
+                    <Image src="/assets/images/LockImage.svg" width={100} height={100}   alt="lock" className=' h-full  rounded-r-sm-md ' />
                 </div>
 
                 <div className='border-2 border-solid border-gray-300 rounded-md shadow-sm pl-7 my-1 mx-8 flex flex-row justify-between items-center'>
@@ -116,11 +126,11 @@ const ProfilePage = () => {
                     </div>
                     {/* */}
 
-                    <Image src={favoritesImage} alt="favorites" className=' h-full  rounded-r-sm-md ' />
+                    <Image src="/assets/images/FavoritesImage.svg" width={100} height={100} alt="favorites" className=' h-full  rounded-r-sm-md ' />
                 </div>
             </Card>
         </div>
     );
 };
 
-export default ProfilePage;
+export default isAuth(ProfilePage,0);

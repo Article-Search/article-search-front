@@ -47,7 +47,7 @@ type ColumnType = {
         last_name: "",
         username: "",
         email: "",
-        role: "Moderator",
+        role:2,
     });
 
     const handleInputChange = (key: string, value: string) => {
@@ -99,7 +99,7 @@ type ColumnType = {
             id: "1",
             first_name: "Tony",
             last_name: "Reichert",
-            role: "Moderator",
+            role: 2,
             username: "tony.reichert",
             email: "tony.reichert@example.com",
         },
@@ -108,7 +108,7 @@ type ColumnType = {
             first_name: "Zoey",
             last_name: "Lang",
             username: "zoey.lang",
-            role: "Technical Lead",
+            role: 2,
             email: "zoey.lang@example.com",
         },
         {
@@ -116,7 +116,7 @@ type ColumnType = {
             first_name: "Jane",
             last_name: "Fisher",
             username: "jane.fisher",
-            role: "Senior Developer",
+            role: 2,
             email: "jane.fisher@example.com",
         },
         {
@@ -124,7 +124,7 @@ type ColumnType = {
             first_name: "William",
             last_name: "Howard",
             username: "william.howard",
-            role: "Community Manager",
+            role: 2,
             email: "william.howard@example.com",
         },
         {
@@ -132,7 +132,7 @@ type ColumnType = {
             first_name: "Kristen",
             last_name: "Copper",
             username: "kristen.copper",
-            role: "Sales Manager",
+            role: 2,
             email: "kristen.cooper@example.com",
         },
         ]);
@@ -263,7 +263,7 @@ type ColumnType = {
         {dataFetched && users.length > 0 && (
             <>
             <Button className="mt-4 font-bold" size="sm" color="primary" onClick={onOpen2}>
-                <Image src={plus} width={15} height={15} alt="plus" className="mr-2" />
+                <Image src="/assets/icons/plus.svg" width={15} height={15} alt="plus" className="mr-2" />
                 Add Moderator
             </Button>
             <Table className="w-full mx-auto my-4">
@@ -303,7 +303,7 @@ type ColumnType = {
                                 <Input className=" my-1" label="last name" type="text" value={userDetails[selectedUser.id]?.last_name||''} onChange={e => setUserDetails({...userDetails, [selectedUser.id]: {...userDetails[selectedUser.id], last_name: e.target.value}})} />
                                 <Input className=" my-1" label="email" type="email" value={userDetails[selectedUser.id]?.email||''} onChange={e => setUserDetails({...userDetails, [selectedUser.id]: {...userDetails[selectedUser.id], email: e.target.value}})} />
                                 <Input className=" my-1" label="username" type="text" value={userDetails[selectedUser.id]?.username||''} onChange={e => setUserDetails({...userDetails, [selectedUser.id]: {...userDetails[selectedUser.id], username: e.target.value}})} />
-                                <Input className=" my-1"  label="role" type="text" value={userDetails[selectedUser.id]?.role||''} onChange={e => setUserDetails({...userDetails, [selectedUser.id]: {...userDetails[selectedUser.id], role: e.target.value}})} />
+                                {/* <Input className=" my-1"  label="role" type="text" value={userDetails[selectedUser.id]?.role||0} onChange={e => setUserDetails({...userDetails, [selectedUser.id]: {...userDetails[selectedUser.id], role: e.target.value}})} /> */}
                             </form>
                         </ModalBody>
                         <ModalFooter>

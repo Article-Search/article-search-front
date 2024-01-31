@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import {Providers} from "./providers";
 import "@/Styles/Styles.css";
 import { Toaster } from 'sonner';
+import { AuthProvider } from './Context/authContext';
 
 const inter = Inter({subsets: ['latin']})
 
@@ -29,10 +30,12 @@ export default function RootLayout({children,}: {
               <div className="gradient" />
           </div>
           <div className="app scroll-smooth">
+            <AuthProvider>
             <Providers>
               {children}
               <Toaster richColors position='top-center' />
             </Providers>
+            </AuthProvider>
           </div>
       </div>
       </body>

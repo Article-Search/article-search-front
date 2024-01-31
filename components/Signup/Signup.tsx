@@ -9,8 +9,12 @@ import { toast } from 'sonner';
 import styles from "./Signup.module.css";
 //auth context
 import { AuthContext } from "@/app/Context/authContext";
+import { redirect, useRouter } from "next/navigation";
+
 
 export default function SignupCard() {
+    const router = useRouter();
+
     const API_URL = process.env.API_URL || 'localhost:9000';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -85,9 +89,9 @@ export default function SignupCard() {
             
             return;
         }
-    
+        let role=0;
         try{
-        const response = await fetch(`http://${API_URL}/auth/register`, { // replace with your actual API URL
+        const response = await fetch(`http://localhost:8000/auth/register/`, { // replace with your actual API URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -105,15 +109,28 @@ export default function SignupCard() {
         if (response.ok) {
             const data = await response.json();
             setUser(data.user);
-            localStorage.setItem('token', data.token);
+            localStorage.setItem('accessToken', data.access);
+            localStorage.setItem('refreshToken', data.refresh);
             toast.success('🎉 Signup successful');
             // Handle successful registration (e.g., navigate to another page, show a success message, etc.)
+            role=data.user.role;
+            
         } else {
             const error = await response.json();
             // Handle error (e.g., show an error message)
         }
     }catch(error){
         console.log(error);
+    }finally{
+        if(role === 1){
+            router.push('/admin');
+        }
+        if(role === 2){
+            router.push('/moderator');
+        }
+        if(role === 3){
+            router.push('/search');
+        }
     }
     };
 
@@ -190,7 +207,7 @@ export default function SignupCard() {
                         </Button>
                         </form>
                         <div className="flex flex-col justify-center items-center">
-                            <p className="text-sm">Already have an account? <Link showAnchorIcon>Login</Link></p>
+                            <p className="text-sm">Already have an account? <Link href="/login" showAnchorIcon>Login</Link></p>
                         </div>
                 </div>
             </Card>

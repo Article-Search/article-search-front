@@ -1,25 +1,18 @@
 "use client"
 import { createContext, useEffect, useState } from 'react';
 import { User } from '@/types';
-
-function parseJwt(token: string) {
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-};
+import parseJwt from '@/util/parseJwt';
 
 interface AuthContextProps {
     user: User | null;
     setUser: React.Dispatch<React.SetStateAction<User | null>>;
+    loading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextProps>({
     user: null,
     setUser: () => {},
+    loading: true,
 });
 
 interface AuthProviderProps {
@@ -28,17 +21,22 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('accessToken');
         if (token) {
-            const user = parseJwt(token);
+            const userToken = parseJwt(token);
+            const {username , role ,id , email,last_name,first_name} = userToken;
+            const user = {username , role ,id , email,last_name,first_name};
             setUser(user);
+            console.log(user);
+            setLoading(false);
         }
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={{ user, setUser, loading }}>
             {children}
         </AuthContext.Provider>
     );

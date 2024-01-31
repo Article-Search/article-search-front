@@ -1,9 +1,11 @@
+"use client"
 import Image from "next/image";
 import wavingHand from "@/public/assets/icons/WavingHand.png";
 import {articles} from "@/constants";
 import Feed from "@/components/Feed";
+import isAuth from "@/components/isAuth";
 
-export default function Page() {
+function Page() {
     return (
         <div className="w-2/4 m-auto">
             <h1 className=' text-4xl font-bold felx items-center py-10  '>
@@ -21,3 +23,5 @@ export default function Page() {
         </div>
     );
 }
+
+export default isAuth(Page,2);

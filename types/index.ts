@@ -5,7 +5,7 @@ export interface User {
     email: string;
     last_name:string;
     username?: string;
-    role?: string;
+    role?: number;
     //TODO add the other fields
 }
 

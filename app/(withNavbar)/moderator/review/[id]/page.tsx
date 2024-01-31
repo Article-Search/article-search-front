@@ -1,9 +1,10 @@
 "use client"
+import isAuth from "@/components/isAuth";
 import PdfReview from "@/components/PdfReview/PdfReview";
 import SimpleInput from "@/components/SimpleInput/SimpleInput";
 import { Button } from "@nextui-org/react";
 
-export default function ReviewArticle(){
+function ReviewArticle(){
     let title="";
     const getTitle=async (value : string )=>{
         title=value;
@@ -87,3 +88,5 @@ export default function ReviewArticle(){
         </div>
     </>);
 }
+
+export default isAuth(ReviewArticle,2);

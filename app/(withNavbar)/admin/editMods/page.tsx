@@ -7,10 +7,11 @@ import {columns, users} from "./data";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import TableUsers from "@/components/TableUsers/TableUsers";
+import isAuth from "@/components/isAuth";
 
 
 
-export default function App() {
+function App() {
     
     return(<div className=" w-2/3 m-auto">
         <p className='purple_gradient font-black text-3xl my-4'> Moderators </p>
@@ -19,3 +20,4 @@ export default function App() {
         
     </div>)
 }
+export default isAuth(App,1);

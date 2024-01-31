@@ -9,9 +9,13 @@ import { toast } from 'sonner';
 import styles from "./Login.module.css";
 //auth context
 import { AuthContext } from "@/app/Context/authContext";
+import { RedirectType, redirect, useRouter } from "next/navigation";
 
 export default function LoginCard() {
-    const API_URL = process.env.API_URL || 'localhost:9000';
+    const router = useRouter();
+
+
+    const API_URL = process.env.API_URL || 'localhost:8000';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
@@ -60,9 +64,10 @@ export default function LoginCard() {
             toast.error('Please fill all the fields correctly');
             return;
         }
-    
+
+        let role=0;
         try{
-        const response = await fetch(`http://${API_URL}/auth/login`, { // replace with your actual API URL
+        const response = await fetch(`http://localhost:8000/auth/login/`, { // replace with your actual API URL
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -77,15 +82,29 @@ export default function LoginCard() {
         if (response.ok) {
             const data = await response.json();
             setUser(data.user);
-            localStorage.setItem('token', data.token);
+            localStorage.setItem('accessToken', data.access);
+            localStorage.setItem('refreshToken', data.refresh);
             toast.success('🎉 Login successful');
+            console.log(data.user.role);
             // Handle successful registration (e.g., navigate to another page, show a success message, etc.)
+            role=data.user.role;
+            
         } else {
             const error = await response.json();
             // Handle error (e.g., show an error message)
         }
     }catch(error){
         console.log(error);
+    }finally{
+        if(role === 1){
+            router.push('/admin');
+        }
+        if(role === 2){
+            router.push('/moderator');
+        }
+        if(role === 3){
+            router.push('/search');
+        }
     }
     };
 
@@ -134,7 +153,7 @@ export default function LoginCard() {
                         </Button>
                         </form>
                         <div className="flex flex-col justify-center items-center">
-                            <p className="text-sm">Don&#39;t have an account? <Link showAnchorIcon>Signup</Link></p>
+                            <p className="text-sm">Don&#39;t have an account? <Link href="/signup" showAnchorIcon>Signup</Link></p>
                         </div>
                 </div>
             </Card>

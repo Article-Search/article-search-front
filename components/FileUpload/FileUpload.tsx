@@ -24,7 +24,7 @@ const FileUpload = () => {
     <div {...getRootProps()} >
         <input {...getInputProps()} />
         <div className=' rounded-2xl shadow-inner  bg-gray-100 flex items-center justify-center px-10 my-2'>
-            <Image src={upload} alt="upload" width={150} height={150} className='my-5 mx-3' />
+            <Image src="/assets/icons/upload.svg" alt="upload" width={150} height={150} className='my-5 mx-3' />
 
         </div>
         {// TODO : change this behaviour and show a toast at the end of the upload if files acceoted or not
