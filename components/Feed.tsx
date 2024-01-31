@@ -13,15 +13,15 @@ import {
 } from "@nextui-org/react";
 import {Article} from "@/types"
 import Image from "next/image";
-import {useState} from "react";
+import {useState, Fragment} from "react";
 import {motion} from "framer-motion";
 
 interface FeedProps {
     articles: Article[];
-    searchValue: string;
+    documentImagePath: string
 }
 
-export default function Feed({articles, searchValue}: FeedProps) {
+export default function Feed({articles, documentImagePath}: FeedProps) {
     const [cardIndex, setCardIndex] = useState<number>(0)
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     return (
@@ -29,9 +29,8 @@ export default function Feed({articles, searchValue}: FeedProps) {
             <ScrollShadow className="ScrollShadow w-screen max-w-4xl h-[61vh] overscroll-x-none">
                 <div className="flex flex-col items-center justify-center gap-9 w-screen max-w-4xl p-4">
                     {articles.map((article, index) => (
-                        <>
+                        <Fragment key={index}>
                             <Card
-                                key={index}
                                 className="card-hover-effect transition"
                                 shadow="md"
                                 onPress={() => {
@@ -44,7 +43,7 @@ export default function Feed({articles, searchValue}: FeedProps) {
                                     <div className="flex gap-4 justify-center w-[41rem] h-[7rem] px-4">
                                         <div className="flex flex-col items-center justify-center w-2/5">
                                             <Image
-                                                src="/assets/icons/document.svg"
+                                                src={documentImagePath}
                                                 alt="Document"
                                                 width={73}
                                                 height={73}
@@ -71,7 +70,7 @@ export default function Feed({articles, searchValue}: FeedProps) {
                                 </CardBody>
                             </Card>
 
-                        </>
+                        </Fragment>
                     ))}
                 </div>
             </ScrollShadow>

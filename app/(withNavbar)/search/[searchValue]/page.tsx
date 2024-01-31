@@ -48,7 +48,7 @@ export default function Page() {
                         </Popover>
                     </div>
                 </div>
-            <Feed articles={articles} searchValue={searchValue}/>
+            <Feed articles={articles} documentImagePath="/assets/icons/document.svg" />
         </section>
     );
 }
