@@ -70,7 +70,7 @@ export default function NavigationBar(props: { returnHome?: boolean; }) {
                             </Link>
                         </NavbarItem>
                         <NavbarItem>
-                            <Button as={Link} href="signup" className="bg-black shadow-buttons" variant="shadow" size="lg">
+                            <Button as={Link} href="/signup" className="bg-black shadow-buttons" variant="shadow" size="lg">
                                 <p className="text-sm font-bold text-white">Sign up</p>
                             </Button>
                         </NavbarItem>

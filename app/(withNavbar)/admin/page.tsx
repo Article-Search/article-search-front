@@ -5,6 +5,7 @@ import edit from '@/public/assets/icons/edit-primary.svg'
 import Image from 'next/image'
 import FileUpload from '@/components/FileUpload/FileUpload'
 import drive from '@/public/assets/icons/google-drive.svg'
+import Link from 'next/link'
 export default function Admin() {
     //TODO : make all components dynamic by fetching data from api , i need format of the data to do that and to not make a lot of changes in the code
     
@@ -59,10 +60,12 @@ export default function Admin() {
                             </div>
                             <p className=' text-xs text-gray-500'>15/12/2023</p>
                         </div>
-                        <Button size='sm' className='w-2/5 m-auto primary-50 primary mt-4 mb-1'>
+                        <Link href='/admin/editMods' className='m-auto w-2/5'>
+                        <Button size='sm' className='w-full primary-50 primary mt-4 mb-1'>
                             <Image src={edit} alt="edit"></Image>
                             manage all
                         </Button>
+                        </Link>
                     </Card>
                     
                 </div>

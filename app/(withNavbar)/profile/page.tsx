@@ -81,7 +81,7 @@ const ProfilePage = () => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     return (
         <div className=" flex w-full flex-col gap-4 justify-center items-center">
-            <NavigationBar returnHome={true} />
+            {/* <NavigationBar returnHome={true} /> */}
             <Card shadow="lg"  className=" w-7/12 py-6 px-5 m-5 ">
                 <p className='purple_gradient font-black text-4xl mx-8 my-4'> Profile </p>
                 <div className=' border-2 border-solid border-gray-300 rounded-md shadow-sm p-7 my-1 mx-8'>
