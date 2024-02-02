@@ -1,7 +1,7 @@
 "use client"
 import { createContext, useEffect, useState } from 'react';
 import { User } from '@/types';
-import parseJwt from '@/util/parseJwt';
+import { parseJwt } from '@/util/parseJwt';
 
 interface AuthContextProps {
     user: User | null;

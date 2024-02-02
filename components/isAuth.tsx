@@ -7,6 +7,7 @@ export default function isAuth(Component: any, role:number ) {
         const { user,loading } = useContext(AuthContext);
         const router = useRouter();
 
+        console.log('current user: ', user)
         useEffect(() => {
             console.log(user);
             if (!loading && (!user || (role !== 0 && user.role !== role))) {
