@@ -9,9 +9,7 @@ function Page() {
     return (
         <div className="w-2/4 m-auto">
             <h1 className=' text-4xl font-bold felx items-center py-10  '>
-                <Image src={wavingHand} alt='waving hand' height={70} width={70}
-                       className=' inline-block mr-3'></Image> Welcome Back <span
-                className='purple_gradient'>Moderator</span>
+                <Image src={wavingHand} alt='waving hand' height={70} width={70} className=' inline-block mr-3'></Image> Welcome Back <span className='purple_gradient'>Moderator</span>
             {/*  TODO: change it to get the name of the moderator  */}
             </h1>
 

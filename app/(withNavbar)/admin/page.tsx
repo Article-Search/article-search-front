@@ -1,15 +1,36 @@
 "use client"
 import NavigationBar from '@/components/navigationBar'
 import wavingHand from '@/public/assets/icons/WavingHand.png'
-import { Button, Card } from '@nextui-org/react'
+import { Button, Card, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from '@nextui-org/react'
 import edit from '@/public/assets/icons/edit-primary.svg'
 import Image from 'next/image'
 import FileUpload from '@/components/FileUpload/FileUpload'
 import drive from '@/public/assets/icons/google-drive.svg'
 import Link from 'next/link'
 import isAuth from '@/components/isAuth'
+import { useState } from 'react'
+import { toast } from 'sonner'
 function Admin() {
     //TODO : make all components dynamic by fetching data from api , i need format of the data to do that and to not make a lot of changes in the code
+    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const [link, setlink] = useState('');
+    const handlelinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setlink(e.target.value);
+    }
+
+    const validatelink = () => {
+        //TODO : send link to api 
+        toast.success('articles added successfully');
+    }
+
+    function isValidUrl(string: string | URL) {
+        try {
+            new URL(string);
+            return true;
+        } catch (_) {
+            return false;  
+        }
+    }
     
 
 
@@ -36,7 +57,7 @@ function Admin() {
                             <FileUpload/>
                         </div>
                         <p className='mx-auto text-gray-500 '>-or-</p>
-                        <Button size='sm' className='w-2/5 m-auto primary-50 primary mt-2 '>
+                        <Button onPress={onOpen}  size='sm' className='w-2/5 m-auto primary-50 primary mt-2 '>
                             <Image src="/assets/icons/google-drive.svg" width={20} height={20} alt="edit"></Image>
                             Drive link
                         </Button>
@@ -74,6 +95,37 @@ function Admin() {
                     
                 </div>
             </div>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                            <ModalContent>
+                                {(onClose) => (
+                                <>
+                                    <ModalHeader className="flex flex-col gap-1">Google drive link to articles</ModalHeader>
+                                    <ModalBody>
+                                        <Input
+                                        label="drive link"
+                                        className="w-3/5 self-center"
+                                        variant="bordered"
+                                        value={link}
+                                        onChange={handlelinkChange}
+                                        />
+                                    </ModalBody>
+                                    <ModalFooter>
+                                    <Button color="danger" variant="light" onPress={onClose}>
+                                        Close
+                                    </Button>
+                                    <Button color="primary" onPress={()=>{
+                                        if(isValidUrl(link)){
+                                            validatelink();
+                                            onClose();
+                                        }
+                                    }}>
+                                        Confirm
+                                    </Button>
+                                    </ModalFooter>
+                                </>
+                                )}
+                            </ModalContent>
+                        </Modal>
         </div>
     )
 }

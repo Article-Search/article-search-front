@@ -89,6 +89,34 @@ const ProfilePage = () => {
     {/*//////////////////////////////// */}
 
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const [newPassword, setNewPassword] = useState('');
+    const [newPasswordIsTouched , setNewPasswordIsTouched] = useState(false);
+    const isNewPasswordValid= newPassword.trim().length>=8;
+    const newPasswordError= isNewPasswordValid || !newPasswordIsTouched ? '' : "password must contain at least 8 characters";
+    const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setNewPassword(e.target.value);
+    }
+    const handleBlurNewPassword= ()=>{
+        setNewPasswordIsTouched(true);
+    }
+    const validateNewPassword= async ()=>{
+        // const response = await fetch(`http://${API_URL}/user/${user.id}`, { // replace with your actual API URL
+        //     method: 'PUT',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify({
+        //         password: newPassword,
+        //     }),
+        // });
+        // const data = await response.json();
+        // if(response.status === 200){
+        //     toast.success("password updated successfully");
+        // }else{
+        //     toast.error("password wasn't updated");
+        // }
+    }
+
     return (
         <div className=" flex w-full flex-col gap-4 justify-center items-center">
             {/* <NavigationBar returnHome={true} /> */}
@@ -112,7 +140,7 @@ const ProfilePage = () => {
                 <div className='border-2 border-solid border-gray-300 rounded-md shadow-sm pl-7 my-1 mx-8 flex flex-row justify-between items-center'>
                     <div>
                         <p className='font-bold text-lg text-gray-500'> Password </p>
-                        <p className=' font-medium text-md'> change password from <Link showAnchorIcon>Here</Link> </p>
+                        <p className=' font-medium text-md'> change password from <Link showAnchorIcon onPress={onOpen}>Here</Link> </p>
                     </div>
                     {/* */}
 
@@ -129,6 +157,40 @@ const ProfilePage = () => {
                     <Image src="/assets/images/FavoritesImage.svg" width={100} height={100} alt="favorites" className=' h-full  rounded-r-sm-md ' />
                 </div>
             </Card>
+            <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+                            <ModalContent>
+                                {(onClose) => (
+                                <>
+                                    <ModalHeader className="flex flex-col gap-1">New Password</ModalHeader>
+                                    <ModalBody>
+                                        <Input
+                                        label="New Password"
+                                        className="w-3/5 self-center"
+                                        variant="bordered"
+                                        value={newPassword}
+                                        onChange={handleNewPasswordChange}
+                                        onBlur={handleBlurNewPassword}
+                                        isInvalid={!isNewPasswordValid && newPasswordIsTouched}
+                                        errorMessage={newPasswordError}
+                                        />
+                                    </ModalBody>
+                                    <ModalFooter>
+                                    <Button color="danger" variant="light" onPress={onClose}>
+                                        Close
+                                    </Button>
+                                    <Button color="primary" onPress={()=>{
+                                        if(isNewPasswordValid){
+                                            validateNewPassword();
+                                            onClose();
+                                        }
+                                    }}>
+                                        Confirm
+                                    </Button>
+                                    </ModalFooter>
+                                </>
+                                )}
+                            </ModalContent>
+                        </Modal>
         </div>
     );
 };
