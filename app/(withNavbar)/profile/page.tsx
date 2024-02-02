@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useContext ,useEffect } from 'react';
 import {Card , Button, Link , useDisclosure , Modal , ModalContent , ModalFooter , ModalBody , ModalHeader, Input} from "@nextui-org/react";
-import { AuthContext } from '../Context/authContext';
+import { AuthContext } from '../../Context/authContext';
 import edit from "@/public/assets/icons/edit.svg"
 import Image from 'next/image'
 import adminRole from "@/public/assets/images/Role-admin.svg"
@@ -33,7 +33,7 @@ const ProfilePage = () => {
     {/*TODO uncomment this code */}
     {/*//////////////////////////////// */}
     // const { user , setUser } = useContext(AuthContext); // get the user from AuthContext
-
+    //
     // const [firstName, setFirstName] = useState('');
     // const [lastName, setLastName] = useState('');
     // const [emailAccount, setEmailAccount] = useState('');
@@ -45,15 +45,29 @@ const ProfilePage = () => {
     //     const fetchUserData = async () => {
     //         const response = await fetch(`http://${API_URL}/user/${user.id}`); //TODO update the endpoint
     //         const data = await response.json();
-
+    //
     //         // Initialize the state variables with the fetched data
     //         setFirstName(data.firstName);
     //         setLastName(data.lastName);
     //         setEmailAccount(data.email);
     //     };
-
+    //
     //     fetchUserData();
     // }, [user.id]);
+
+
+
+    // useEffect(() => {
+    //     const fetchUserData = async () => {
+    //         // Initialize the state variables with the fetched data
+    //         setFirstName(firstName);
+    //         setLastName(lastName);
+    //         setEmailAccount(emailAccount);
+    //     };
+    //
+    //     fetchUserData();
+    // }, []);
+
 
     // useEffect(() => {
     //     const updateUserData = async () => {
