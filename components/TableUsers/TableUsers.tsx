@@ -27,6 +27,8 @@ import { toast } from "sonner";
 import { User } from "@/types";
 import Image from "next/image";
 import plus from "@/public/assets/icons/plus.svg";
+const API_URL = process.env.API_URL || 'http://localhost:8000';
+
 
 type ColumnType = {
     name: string;
@@ -37,8 +39,9 @@ type ColumnType = {
     const [userDetails, setUserDetails] = useState<Record<string, User>>({});
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [users, setUsers] = useState<User[]>([]);
-    const [selectedUser, setSelectedUser] = useState<User>(users[0]);
+    const [selectedUser, setSelectedUser] = useState<User>({id: "", first_name: "", last_name: "", username: "", email: "", role: 2});
     const [dataFetched, setDataFetched] = useState(false);
+    const [newUserPassword, setNewUserPassword] = useState('');
     const { isOpen: isOpen2, onOpen: onOpen2, onOpenChange: onOpenChange2 } =
         useDisclosure();
     const [newUser, setNewUser] = useState<User>({
@@ -49,6 +52,7 @@ type ColumnType = {
         email: "",
         role:2,
     });
+    const accessToken = localStorage.getItem('accessToken');
 
     const handleInputChange = (key: string, value: string) => {
         setNewUser((prevUser) => ({ ...prevUser, [key]: value }));
@@ -80,75 +84,110 @@ type ColumnType = {
 
     const handlePasswordChange = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) =>
-        handleInputChange("password", e.target.value),
+        setNewUserPassword(e.target.value),
         []
     );
 
-    const handleSubmitNewUser = useCallback(() => {
+    const handleSubmitNewUser = useCallback(async () => {
         setUsers((prevUsers) => [...prevUsers, newUser]);
-        toast.success("User added successfully");
+        const response = await fetch(`${API_URL}/moderators/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+                first_name: newUser.first_name,
+                last_name: newUser.last_name,
+                email: newUser.email,
+                username: newUser.username,
+                password: newUserPassword,
+            }),
+        });
+        if (response.status === 201) {
+            toast.success("User added successfully");
+        }else{
+            toast.error("An error occurred while adding the user");
+        }
+        
+        
+
     }, [newUser]);
 
-    const fetchData = async () => {
-      // TODO: Make a request to fetch user data from API
-      // const response = await fetch("URL");
-      // const data = await response.json();
-      // setUsers(data);
-        setUsers([
-        {
-            id: "1",
-            first_name: "Tony",
-            last_name: "Reichert",
-            role: 2,
-            username: "tony.reichert",
-            email: "tony.reichert@example.com",
-        },
-        {
-            id: '2',
-            first_name: "Zoey",
-            last_name: "Lang",
-            username: "zoey.lang",
-            role: 2,
-            email: "zoey.lang@example.com",
-        },
-        {
-            id: '3',
-            first_name: "Jane",
-            last_name: "Fisher",
-            username: "jane.fisher",
-            role: 2,
-            email: "jane.fisher@example.com",
-        },
-        {
-            id: '4',
-            first_name: "William",
-            last_name: "Howard",
-            username: "william.howard",
-            role: 2,
-            email: "william.howard@example.com",
-        },
-        {
-            id: '5',
-            first_name: "Kristen",
-            last_name: "Copper",
-            username: "kristen.copper",
-            role: 2,
-            email: "kristen.cooper@example.com",
-        },
-        ]);
-        setDataFetched(true);
-    };
+    // const fetchData = async () => {
+    //   // TODO: Make a request to fetch user data from API
+    //   // const response = await fetch("URL");
+    //   // const data = await response.json();
+    //   // setUsers(data);
+    //     setUsers([
+    //     {
+    //         id: "1",
+    //         first_name: "Tony",
+    //         last_name: "Reichert",
+    //         role: 2,
+    //         username: "tony.reichert",
+    //         email: "tony.reichert@example.com",
+    //     },
+    //     {
+    //         id: '2',
+    //         first_name: "Zoey",
+    //         last_name: "Lang",
+    //         username: "zoey.lang",
+    //         role: 2,
+    //         email: "zoey.lang@example.com",
+    //     },
+    //     {
+    //         id: '3',
+    //         first_name: "Jane",
+    //         last_name: "Fisher",
+    //         username: "jane.fisher",
+    //         role: 2,
+    //         email: "jane.fisher@example.com",
+    //     },
+    //     {
+    //         id: '4',
+    //         first_name: "William",
+    //         last_name: "Howard",
+    //         username: "william.howard",
+    //         role: 2,
+    //         email: "william.howard@example.com",
+    //     },
+    //     {
+    //         id: '5',
+    //         first_name: "Kristen",
+    //         last_name: "Copper",
+    //         username: "kristen.copper",
+    //         role: 2,
+    //         email: "kristen.cooper@example.com",
+    //     },
+    //     ]);
+    //     setDataFetched(true);
+    // };
 
     useEffect(() => {
-        fetchData();
+        const fetchModerators = async () => {
+        const response = await fetch(`${API_URL}/moderators/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        });
+        const data = await response.json();
+        setUsers(data.users);
+        setDataFetched(true);
+        };
+        fetchModerators();
     }, []);
 
     useEffect(() => {
+        if(users && users.length > 0){
         const initialUserDetails = users.reduce(
         (acc, user) => ({ ...acc, [user.id]: user }),
         {} as Record<string, User>
         );
         setUserDetails(initialUserDetails);
+    }
     }, [users]);
 
     const handleSubmit = async (userId: string) => {
@@ -160,12 +199,41 @@ type ColumnType = {
         return newUsers;
         });
       // TODO: Make the API request to update the user's details and return a toast
-        console.log(user);
+        const response = await fetch(`${API_URL}/moderators/${userId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            username: user.username,
+        }),
+    });
+    if (response.status === 200) {
+        toast.success("User modified successfully");
+    }else{
+        toast.error("An error occurred while modifying the user");
+    }
     };
 
     const handleDelete = async (userId: string) => {
         setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
       // TODO: Make the API request to delete the user and return a toast
+        const response = await fetch(`${API_URL}/moderators/${userId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+        },
+    });
+    if (response.status === 204) {
+        toast.success("User deleted successfully");
+    }else{
+        toast.error("An error occurred while deleting the user");
+    }
     };
 
     const renderCell = useCallback(
@@ -260,7 +328,7 @@ type ColumnType = {
             
     return (
         <>
-        {dataFetched && users.length > 0 && (
+        {dataFetched && users && users.length > 0 && (
             <>
             <Button className="mt-4 font-bold" size="sm" color="primary" onClick={onOpen2}>
                 <Image src="/assets/icons/plus.svg" width={15} height={15} alt="plus" className="mr-2" />
@@ -277,7 +345,7 @@ type ColumnType = {
             </>
         )}
 
-        {dataFetched && users.length === 0 && (
+        {dataFetched && users && users.length === 0 && (
         <div className="flex flex-col items-center justify-center h-96">
             <p className="text-2xl font-bold text-gray-500">No Moderators found</p>
         </div>)
@@ -328,7 +396,7 @@ type ColumnType = {
                 <ModalContent>
                     {(closeModal) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">Edit User</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">Add User</ModalHeader>
                         <ModalBody>
                             <form>
                                 <Input className=" my-1" label="first name" type="text" onChange={handleFirstNameChange}  />

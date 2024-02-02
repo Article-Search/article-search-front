@@ -13,6 +13,7 @@ import isAuth from "@/components/isAuth";
 
 function App() {
     
+    
     return(<div className=" w-2/3 m-auto">
         <p className='purple_gradient font-black text-3xl my-4'> Moderators </p>
         <p className="font-semibold">you can edit moderators from here </p>

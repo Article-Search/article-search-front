@@ -14,46 +14,35 @@ import { toast } from 'sonner';
 import isAuth from '@/components/isAuth';
 import { useRouter } from 'next/navigation';
 
-const API_URL = process.env.API_URL || 'localhost:9000';
+const API_URL = process.env.API_URL || 'http://localhost:8000';
 
 const ProfilePage = () => {
-    {/*TODO comment this code */}
-    const [firstName, setFirstName] = useState('Mohamed Ilyes');
-    const [lastName, setLastName] = useState('Arabet');
-    const [emailAccount, setEmailAccount] = useState('ilyesarabet@gmail.com');
-    // const {user}=useContext(AuthContext);
-    // const router = useRouter();
-
-    // useEffect(() => {
-    //     if(!user){
-    //         router.push('/login');
-    //     }
-    // },)
-
+    const accessToken = localStorage.getItem('accessToken');
     {/*TODO uncomment this code */}
     {/*//////////////////////////////// */}
-    // const { user , setUser } = useContext(AuthContext); // get the user from AuthContext
+    const { user , setUser } = useContext(AuthContext); // get the user from AuthContext
     //
-    // const [firstName, setFirstName] = useState('');
-    // const [lastName, setLastName] = useState('');
-    // const [emailAccount, setEmailAccount] = useState('');
-    // if(!user){
-    //     redirect('/');
-    // }
+    const [firstName, setFirstName] = useState(user?.first_name || '');
+    const [lastName, setLastName] = useState(user?.last_name || '');
+    const [emailAccount, setEmailAccount] = useState(user?.email || '');
 
     // useEffect(() => {
     //     const fetchUserData = async () => {
-    //         const response = await fetch(`http://${API_URL}/user/${user.id}`); //TODO update the endpoint
-    //         const data = await response.json();
-    //
-    //         // Initialize the state variables with the fetched data
-    //         setFirstName(data.firstName);
-    //         setLastName(data.lastName);
-    //         setEmailAccount(data.email);
+    //         if (user) {
+    //             const response = await fetch(`${API_URL}/user/`); //TODO update the endpoint
+    //             const data = await response.json();
+    
+    //             // Initialize the state variables with the fetched data
+    //             setFirstName(data.firstName);
+    //             setLastName(data.lastName);
+    //             setEmailAccount(data.email);
+    //         }
     //     };
-    //
-    //     fetchUserData();
-    // }, [user.id]);
+    
+    //     if (user) {
+    //         fetchUserData();
+    //     }
+    // }, []);
 
 
 
@@ -69,35 +58,44 @@ const ProfilePage = () => {
     // }, []);
 
 
-    // useEffect(() => {
-    //     const updateUserData = async () => {
-    //         const {first_name , last_name , email ,...otherFileds}=user;
-    //         const response = await fetch(`http://${API_URL}/user/${user.id}`, { // replace with your actual API URL
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({
-    //                 first_name: firstName,
-    //                 last_name: lastName,
-    //                 email: emailAccount,
-    //                 ...otherFileds,
-    //             }),
-    //         });
-    //         const data = await response.json();
-    //         if(response.status === 200){
-    //             setUser(data);//update the context
-    //             toast.success("profile updated successfully");
-    //         }else{
-    //             toast.error("profile wasn't updated");
-    //         }
-    //     };
+        const updateUserData = async (field:string,newValue:string) => {
+            let newfirstname = firstName;
+            let newlastname = lastName;
+            let newemail = emailAccount;
+            if(field==='FirstName'){
+                setFirstName(newValue);
+                newfirstname = newValue;
+            }else if(field==='LastName'){
+                setLastName(newValue);
+                newlastname = newValue;
+            }else if(field==='Email'){
+                setEmailAccount(newValue);
+                newemail = newValue;
+            }
+            if(!user) return;
+            const {first_name , last_name , email ,...otherFileds}=user;
+            const response = await fetch(`${API_URL}/profile/update/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({
+                    first_name: newfirstname,
+                    last_name: newlastname,
+                    email: newemail,
+                }),
+            });
+            const data = await response.json();
+            if(response.status === 200){
+                setUser(data);//update the context
+                toast.success("profile updated successfully");
+            }else{
+                toast.error("profile wasn't updated");
+            }
+        };
 
-    //     // Only send the request if the state variables are not empty
-    //     if (firstName && lastName && emailAccount) {
-    //         updateUserData();
-    //     }
-    // }, [firstName, lastName, emailAccount]);
+
 
 
     {/*//////////////////////////////// */}
@@ -114,21 +112,24 @@ const ProfilePage = () => {
         setNewPasswordIsTouched(true);
     }
     const validateNewPassword= async ()=>{
-        // const response = await fetch(`http://${API_URL}/user/${user.id}`, { // replace with your actual API URL
-        //     method: 'PUT',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         password: newPassword,
-        //     }),
-        // });
-        // const data = await response.json();
-        // if(response.status === 200){
-        //     toast.success("password updated successfully");
-        // }else{
-        //     toast.error("password wasn't updated");
-        // }
+        if(!user) return;
+        const response = await fetch(`${API_URL}/auth/reset_password/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+                email: user.email,
+                password: newPassword,
+            }),
+        });
+        const data = await response.json();
+        if(response.status === 200){
+            toast.success("password updated successfully");
+        }else{
+            toast.error("password wasn't updated");
+        }
     }
 
     return (
@@ -137,14 +138,14 @@ const ProfilePage = () => {
             <Card shadow="lg"  className=" w-7/12 py-6 px-5 m-5 ">
                 <p className='purple_gradient font-black text-4xl mx-8 my-4'> Profile </p>
                 <div className=' border-2 border-solid border-gray-300 rounded-md shadow-sm p-7 my-1 mx-8'>
-                    <ProfileField fieldName='First name' fieldData={firstName} returnedValue={(newVal)=>{setFirstName(newVal);}} confirmData={(newData)=>{return newData.trim().length>=2;}} errorMessage='first name must contain at least 2 letters'/>
-                    <ProfileField fieldName='Last name' fieldData={lastName} returnedValue={(newVal)=>{setLastName(newVal);}} confirmData={(newData)=>{return newData.trim().length>=2;}} errorMessage='last name must contain at least 2 letters'/>
-                    <ProfileField fieldName='Email account' fieldData={emailAccount} returnedValue={(newVal)=>{setEmailAccount(newVal);}} confirmData={(newData)=>{return newData.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null;}} errorMessage='Please enter a valid email'/>
+                    <ProfileField  fieldName='First name' fieldData={firstName} returnedValue={(newVal)=>{setFirstName(newVal);updateUserData("FirstName",newVal)}} confirmData={(newData)=>{return newData.trim().length>=2;}} errorMessage='first name must contain at least 2 letters'/>
+                    <ProfileField  fieldName='Last name' fieldData={lastName} returnedValue={(newVal)=>{setLastName(newVal);updateUserData("LastName",newVal)}} confirmData={(newData)=>{return newData.trim().length>=2;}} errorMessage='last name must contain at least 2 letters'/>
+                    <ProfileField  fieldName='Email account' fieldData={emailAccount} returnedValue={(newVal)=>{setEmailAccount(newVal);updateUserData("Email",newVal)}} confirmData={(newData)=>{return newData.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null;}} errorMessage='Please enter a valid email'/>
                 </div>
                 <div className='border-2 border-solid border-gray-300 rounded-md shadow-sm pl-7 my-1 mx-8 flex flex-row justify-between items-center'>
                     <div>
                         <p className='font-bold text-lg text-gray-500'> Role </p>
-                        <p className=' font-medium text-md'> Administator </p>
+                        <p className=' font-medium text-md'>{user?.role === 1 ? "admin" : user?.role === 2 ? "Moderator" : "User"  }</p>
                     </div>
                     {/* */}
 
@@ -164,7 +165,7 @@ const ProfilePage = () => {
                 <div className='border-2 border-solid border-gray-300 rounded-md shadow-sm pl-7 my-1 mx-8 flex flex-row justify-between items-center'>
                     <div>
                         <p className='font-bold text-lg text-gray-500'> Favorites </p>
-                        <p className=' font-medium text-md'> Read your favorite artciles from <Link showAnchorIcon>Here</Link> </p>
+                        <p className=' font-medium text-md'> Read your favorite artciles from <Link showAnchorIcon href='/profile/favorites'>Here</Link> </p>
                     </div>
                     {/* */}
 

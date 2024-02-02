@@ -10,8 +10,7 @@ export default function isAuth(Component: any, role:number ) {
         useEffect(() => {
             console.log(user);
             if (!loading && (!user || (role !== 0 && user.role !== role))) {
-                router.push('/login');
-            }
+                window.location.href = '/login';            }
         }, [user, loading]);// added route just to avoid the warning
 
         if (loading || !user || (role !== 0 && user.role !== role)) {

@@ -20,6 +20,11 @@ import {useContext} from "react";
 export default function NavigationBar(props: { returnHome?: boolean; }) {
     const returnHome= props ? props.returnHome || false : false;
     const {user} = useContext(AuthContext);
+    const handleLogout = () => {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        window.location.href = '/login';
+    }
     return (
         <Navbar className="bg-transparent pt-3" position="static">
             <NavbarBrand>
@@ -95,7 +100,7 @@ export default function NavigationBar(props: { returnHome?: boolean; }) {
                                 <p className="font-semibold">{user.email}</p>
                             </DropdownItem>
                             <DropdownItem key="settings"><Link href="/profile">My Profile</Link></DropdownItem>
-                            <DropdownItem key="logout" color="danger">Log Out</DropdownItem>
+                            <DropdownItem key="logout" color="danger" onClick={handleLogout}>Log Out</DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
                 )}

@@ -31,8 +31,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const user = {username , role ,id , email,last_name,first_name};
             setUser(user);
             console.log(user);
-            setLoading(false);
+            
         }
+        setLoading(false);
     }, []);
 
     return (

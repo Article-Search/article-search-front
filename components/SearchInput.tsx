@@ -1,6 +1,6 @@
 'use client'
 import {useState} from "react";
-import {Input} from "@nextui-org/react";
+import {Button, Input, Link} from "@nextui-org/react";
 import Image from "next/image";
 
 export default function SearchInput() {
@@ -19,7 +19,7 @@ export default function SearchInput() {
                     endContent={
                         <>
                             <div className="border-l h-full mx-2"></div>
-                            <p className={`text-2xl font-bold ${searchText ? 'text-green-500' : 'text-[#959595]'} transition`}>Search</p>
+                            <Link href={`/search/${searchText}`}><Button className={` bg-white text-2xl font-bold ${searchText ? 'text-green-500' : 'text-[#959595]'} transition`}>Search</Button></Link>
                         </>
                     }
                 />
