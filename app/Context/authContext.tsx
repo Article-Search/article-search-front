@@ -1,7 +1,7 @@
 "use client"
 import { createContext, useEffect, useState } from 'react';
 import { User } from '@/types';
-import parseJwt from '@/util/parseJwt';
+import { parseJwt } from '@/util/parseJwt';
 
 interface AuthContextProps {
     user: User | null;
@@ -27,8 +27,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const token = localStorage.getItem('accessToken');
         if (token) {
             const userToken = parseJwt(token);
+            console.log(userToken);
             const {username , role ,id , email,last_name,first_name} = userToken;
             const user = {username , role ,id , email,last_name,first_name};
+            console.log(user);
             setUser(user);
             console.log(user);
             

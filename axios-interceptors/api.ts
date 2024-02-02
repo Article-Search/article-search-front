@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an axios instance
 const api = axios.create({
-    baseURL: 'http://localhost:8000/', 
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
 });
 
 const token = localStorage.getItem('accessToken');

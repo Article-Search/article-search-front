@@ -1,5 +1,6 @@
 "use client"
 import React, { useContext, useState } from "react";
+import axios from '@/utils/axios'
 import { Card } from "@nextui-org/react";
 import { Input } from "@nextui-org/react";
 import { Button } from "@nextui-org/react";
@@ -11,42 +12,36 @@ import styles from "./Signup.module.css";
 import { AuthContext } from "@/app/Context/authContext";
 import { redirect, useRouter } from "next/navigation";
 
-
 export default function SignupCard() {
     const router = useRouter();
 
     const API_URL = process.env.API_URL || 'localhost:9000';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [firstName, setFirstName] = useState(''); 
-    const [lastName, setLastName] = useState(''); 
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
 
-    const [emailIsTouched , setEmailIsTouched] = useState(false);
-    const [passwordIsTouched , setpasswordIsTouched] = useState(false);
-    const [firstNameIsTouched , setFirstNameIsTouched] = useState(false);
-    const [lastNameIsTouched , setLastNameIsTouched] = useState(false);
+    const [emailIsTouched, setEmailIsTouched] = useState(false);
+    const [passwordIsTouched, setpasswordIsTouched] = useState(false);
+    const [firstNameIsTouched, setFirstNameIsTouched] = useState(false);
+    const [lastNameIsTouched, setLastNameIsTouched] = useState(false);
 
-    const isEmailValid= email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null;
-    const isPasswordValid= password.length >= 8;
-    const isFirstNameValid= firstName.length >= 2;
-    const isLastNameValid= lastName.length >= 2;
-    const emailError= isEmailValid || !emailIsTouched ? '' : 'Please enter a valid email';
-    const passwordError= isPasswordValid || !passwordIsTouched ? '' : 'Password must be at least 8 characters long';
-    const firstNameError= isFirstNameValid || !firstNameIsTouched ? '' : 'First name is required';
-    const lastNameError= isLastNameValid || !lastNameIsTouched ? '' : 'Last name is required';
-
-
-
-
-
+    const isEmailValid = email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) !== null;
+    const isPasswordValid = password.length >= 8;
+    const isFirstNameValid = firstName.length >= 2;
+    const isLastNameValid = lastName.length >= 2;
+    const emailError = isEmailValid || !emailIsTouched ? '' : 'Please enter a valid email';
+    const passwordError = isPasswordValid || !passwordIsTouched ? '' : 'Password must be at least 8 characters long';
+    const firstNameError = isFirstNameValid || !firstNameIsTouched ? '' : 'First name is required';
+    const lastNameError = isLastNameValid || !lastNameIsTouched ? '' : 'Last name is required';
 
     const { setUser } = useContext(AuthContext);
 
     const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail( e.target.value);
+        setEmail(e.target.value);
     };
 
-    const handleBlurEmail= ()=>{
+    const handleBlurEmail = () => {
         setEmailIsTouched(true);
     }
 
@@ -54,7 +49,7 @@ export default function SignupCard() {
         setPassword(e.target.value);
     };
 
-    const handleBlurPassword=()=>{
+    const handleBlurPassword = () => {
         setpasswordIsTouched(true);
     }
 
@@ -62,7 +57,7 @@ export default function SignupCard() {
         setFirstName(e.target.value);
     };
 
-    const handleBlurFirstName=()=>{
+    const handleBlurFirstName = () => {
         setFirstNameIsTouched(true);
     }
 
@@ -70,7 +65,7 @@ export default function SignupCard() {
         setLastName(e.target.value);
     };
 
-    const handleBlurLastName=()=>{
+    const handleBlurLastName = () => {
         setLastNameIsTouched(true);
     }
 
@@ -83,71 +78,71 @@ export default function SignupCard() {
         setFirstNameIsTouched(true);
         setLastNameIsTouched(true);
 
-        if(!isEmailValid || !isPasswordValid || !isFirstNameValid || !isLastNameValid){
+        if (!isEmailValid || !isPasswordValid || !isFirstNameValid || !isLastNameValid) {
             //add a pop message
             toast.error('Please fill all the fields correctly');
-            
+
             return;
         }
-        let role=0;
-        try{
-        const response = await fetch(`http://localhost:8000/auth/register/`, { // replace with your actual API URL
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+
+        try {
+            const response = await axios.post('auth/register/', {
                 email: email,
                 password: password,
-                first_name:firstName,
-                last_name:lastName,
+                first_name: firstName,
+                last_name: lastName
+            });
 
-            }),
-        });
+            const data = response.data;
 
-    
-        if (response.ok) {
-            const data = await response.json();
+            // save the infos
             setUser(data.user);
             localStorage.setItem('accessToken', data.access);
             localStorage.setItem('refreshToken', data.refresh);
+
+            // show a success alert
             toast.success('🎉 Signup successful');
-            // Handle successful registration (e.g., navigate to another page, show a success message, etc.)
-            role=data.user.role;
-            
-        } else {
-            const error = await response.json();
-            // Handle error (e.g., show an error message)
+
+            // redirect to the right page
+            const role = data.user.role;
+
+            switch (role) {
+                case 1:
+                    router.push('/admin');
+                    break;
+                case 2:
+                    router.push('/moderator');
+                    break;
+                case 3:
+                    router.push('/search');
+                    break;
+                default:
+                    router.push('/search');
+                    break;
+            }
+        } catch (errorResponse) {
+            const error = errorResponse.response.data;
+            console.log(error);
+
+            toast.error('🤔 Login failed');
         }
-    }catch(error){
-        console.log(error);
-    }finally{
-        if(role === 1){
-            router.push('/admin');
-        }
-        if(role === 2){
-            router.push('/moderator');
-        }
-        if(role === 3){
-            router.push('/search');
-        }
-    }
     };
 
 
     return (
         <div className="flex w-full flex-wrap md:flex-nowrap gap-4 justify-center items-center">
-            <Card shadow="lg"  className=" w-5/12 py-6">
+            <Card shadow="lg" className=" w-5/12 py-6">
                 <div className="flex flex-col justify-center items-center">
-                    <h1 className={`text-3xl font-black mb-3   ${styles.signupTitle} `}>Sign up</h1>
+                    <h1 className={`text-3xl font-black mb-3 ${styles.signupTitle}`}>Sign up</h1>
                     <p className=" text-sm font-light text-gray-400"> Start your journey with us now !</p>
+
                     <form className="flex flex-col gap-4 w-full py-5">
                         <Input
                             label="First Name"
                             className="w-3/5 self-center "
                             variant="bordered"
                             isClearable
-                            onClear={() => { 
+                            onClear={() => {
                                 setFirstName('');
                             }}
                             value={firstName}
@@ -161,7 +156,7 @@ export default function SignupCard() {
                             className="w-3/5 self-center "
                             variant="bordered"
                             isClearable
-                            onClear={() => { 
+                            onClear={() => {
                                 setLastName('');
                             }}
                             value={lastName}
@@ -175,7 +170,7 @@ export default function SignupCard() {
                             className="w-3/5 self-center "
                             variant="bordered"
                             isClearable
-                            onClear={() => { 
+                            onClear={() => {
                                 setEmail('');
                             }}
                             type="email"
@@ -205,10 +200,11 @@ export default function SignupCard() {
                         >
                             Confirm
                         </Button>
-                        </form>
-                        <div className="flex flex-col justify-center items-center">
-                            <p className="text-sm">Already have an account? <Link href="/login" showAnchorIcon>Login</Link></p>
-                        </div>
+                    </form>
+
+                    <div className="flex flex-col justify-center items-center">
+                        <p className="text-sm">Already have an account? <Link href="/login" showAnchorIcon>Login</Link></p>
+                    </div>
                 </div>
             </Card>
         </div>

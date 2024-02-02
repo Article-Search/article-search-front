@@ -1,10 +1,10 @@
 'use client'
 
-import {useState} from 'react';
-import {Document, Page, pdfjs} from 'react-pdf';
+import { useState, useEffect } from 'react';
+import { Document, Page, pdfjs } from 'react-pdf';
 
-import type {PDFDocumentProxy} from 'pdfjs-dist';
-import {ChevronRightIcon} from "@nextui-org/shared-icons";
+import type { PDFDocumentProxy } from 'pdfjs-dist';
+import { ChevronRightIcon } from "@nextui-org/shared-icons";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -15,8 +15,9 @@ interface PdfReviewProps {
     filePath: string,
 }
 
-export default function PdfReview({filePath }: PdfReviewProps) {
+export default function PdfReview({ filePath }: PdfReviewProps) {
     const [file, setFile] = useState<PDFFile>(filePath)
+    const [pdf, setPdf] = useState<PDFFile | null>(null);
     const [numPages, setNumPages] = useState<number>(0);
     const [pageNumber, setPageNumber] = useState<number>(1); // start on first page
     const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ export default function PdfReview({filePath }: PdfReviewProps) {
     }
 
     function onPageLoadSuccess() {
-        setPageWidth(window.innerWidth/3);
+        setPageWidth(window.innerWidth / 3);
         setLoading(false);
     }
 
@@ -49,7 +50,6 @@ export default function PdfReview({filePath }: PdfReviewProps) {
     function goToPreviousPage() {
         setPageNumber((prevPageNumber) => prevPageNumber - 1);
     }
-
 
     return (
         <div>
@@ -81,6 +81,9 @@ export default function PdfReview({filePath }: PdfReviewProps) {
 
                 <div className="h-full flex justify-center mx-auto">
                     <Document
+                        // file={{
+                        //     url: file,
+                        // }}
                         file={file}
                         onLoadSuccess={onDocumentLoadSuccess}
                         options={options}
