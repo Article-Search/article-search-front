@@ -120,6 +120,7 @@ export default function LoginCard() {
 
                     <form className="flex flex-col gap-4 w-full py-5">
                         <Input
+                            id="email"
                             label="Email"
                             className="w-3/5 self-center "
                             variant="bordered"
@@ -135,6 +136,7 @@ export default function LoginCard() {
                             errorMessage={emailError}
                         />
                         <Input
+                            id="password"
                             label="Password"
                             className="w-3/5 self-center"
                             variant="bordered"

@@ -138,6 +138,7 @@ export default function SignupCard() {
 
                     <form className="flex flex-col gap-4 w-full py-5">
                         <Input
+                            id="firstName"
                             label="First Name"
                             className="w-3/5 self-center "
                             variant="bordered"
@@ -152,6 +153,7 @@ export default function SignupCard() {
                             errorMessage={firstNameError}
                         />
                         <Input
+                            id="lastName"
                             label="Last Name"
                             className="w-3/5 self-center "
                             variant="bordered"
@@ -166,6 +168,7 @@ export default function SignupCard() {
                             errorMessage={lastNameError}
                         />
                         <Input
+                            id="email"
                             label="Email"
                             className="w-3/5 self-center "
                             variant="bordered"
@@ -181,6 +184,7 @@ export default function SignupCard() {
                             errorMessage={emailError}
                         />
                         <Input
+                            id="password"
                             label="Password"
                             className="w-3/5 self-center"
                             variant="bordered"
