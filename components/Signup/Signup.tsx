@@ -15,7 +15,7 @@ import { redirect, useRouter } from "next/navigation";
 export default function SignupCard() {
     const router = useRouter();
 
-    const API_URL = process.env.API_URL || 'localhost:9000';
+    const API_URL = process.env.API_URL || 'http://localhost:8000';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -86,14 +86,26 @@ export default function SignupCard() {
         }
 
         try {
-            const response = await axios.post('auth/register/', {
-                email: email,
-                password: password,
-                first_name: firstName,
-                last_name: lastName
+            // const response = await axios.post('auth/register/', {
+            //     email: email,
+            //     password: password,
+            //     first_name: firstName,
+            //     last_name: lastName
+            // });
+            const response= await fetch(`${API_URL}/auth/register/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    first_name: firstName,
+                    last_name: lastName
+                })
             });
 
-            const data = response.data;
+            const data = await response.json();
 
             // save the infos
             setUser(data.user);
@@ -101,6 +113,7 @@ export default function SignupCard() {
             localStorage.setItem('refreshToken', data.refresh);
 
             // show a success alert
+
             toast.success('🎉 Signup successful');
 
             // redirect to the right page
@@ -121,7 +134,7 @@ export default function SignupCard() {
                     break;
             }
         } catch (errorResponse) {
-            const error = errorResponse.response.data;
+            const error = errorResponse;
             console.log(error);
 
             toast.error('🤔 Login failed');
@@ -201,6 +214,7 @@ export default function SignupCard() {
                             radius="lg"
                             className="w-2/5 self-center bg-black text-white font-bold shadow-md hover:shadow-xl"
                             onClick={handleSignup}
+                            id="submit"
                         >
                             Confirm
                         </Button>

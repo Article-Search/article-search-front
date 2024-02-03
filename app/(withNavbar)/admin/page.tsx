@@ -8,15 +8,38 @@ import FileUpload from '@/components/FileUpload/FileUpload'
 import drive from '@/public/assets/icons/google-drive.svg'
 import Link from 'next/link'
 import isAuth from '@/components/isAuth'
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { toast } from 'sonner'
+const API_URL = process.env.API_URL || 'http://localhost:8000';
 function Admin() {
     //TODO : make all components dynamic by fetching data from api , i need format of the data to do that and to not make a lot of changes in the code
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
     const [link, setlink] = useState('');
+    const [first3mods , setfirst3mods] = useState([]);
+    const [dataFetched, setDataFetched] = useState(false);
     const handlelinkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setlink(e.target.value);
     }
+    const accessToken = localStorage.getItem('accessToken');
+
+    useEffect(() => {
+        const fetchModerators = async () => {
+        const response = await fetch(`${API_URL}/moderators/`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+        });
+        const data = await response.json();
+        //get 3 first modrators 
+        // console.log(data);
+
+        setfirst3mods(data.users.slice(0,3));
+        setDataFetched(true);
+        };
+        fetchModerators();
+    }, []);
 
     const validatelink = () => {
         //TODO : send link to api 
@@ -63,28 +86,19 @@ function Admin() {
                         </Button>
                     </Card>
                     <Card className=' px-7 py-3'>
-                        <p className=' font-bold text-xl text-gray-500 mb-2'>Moderators</p>
-                        <div className=' flex flex-row justify-between my-1 '>
-                            <div className=' ml-1'>
-                                <p className=' font-semibold text-sm '>Ilyes arabet</p>
-                                <p className=' text-gray-500 font-normal text-xs'>ilyesarabet@gmail.com</p>
-                            </div>
-                            <p className=' text-xs text-gray-500'>15/12/2023</p>
-                        </div>
-                        <div className=' flex flex-row justify-between my-1 '>
-                            <div className=' ml-1'>
-                                <p className=' font-semibold text-sm  '>Ilyes arabet</p>
-                                <p className=' text-gray-500 font-normal text-xs'>ilyesarabet@gmail.com</p>
-                            </div>
-                            <p className=' text-xs text-gray-500'>15/12/2023</p>
-                        </div>
-                        <div className=' flex flex-row justify-between my-1 '>
-                            <div className=' ml-1'>
-                                <p className=' font-semibold text-sm  '>Ilyes arabet</p>
-                                <p className=' text-gray-500 font-normal text-xs'>ilyesarabet@gmail.com</p>
-                            </div>
-                            <p className=' text-xs text-gray-500'>15/12/2023</p>
-                        </div>
+                    <p className=' font-bold text-xl text-gray-500 mb-2'>Moderators</p>
+                        {first3mods.map((mod:any) => {
+                            return(
+                                <div key={mod.id} className=' flex flex-row justify-between my-1 '>
+                                    <div className=' ml-1'>
+                                        <p className=' font-semibold text-sm '>{mod.first_name +' '+ mod.last_name}</p>
+                                        <p className=' text-gray-500 font-normal text-xs'>{mod.email}</p>
+                                    </div>
+                                    <p className=' text-xs text-gray-500'>moderator</p>
+                                </div>
+                            )
+                        })}
+                        
                         <Link href='/admin/editMods' className='m-auto w-2/5'>
                         <Button size='sm' className='w-full primary-50 primary mt-4 mb-1'>
                             <Image src="/assets/icons/edit-primary.svg" width={20} height={20} alt="edit"></Image>
