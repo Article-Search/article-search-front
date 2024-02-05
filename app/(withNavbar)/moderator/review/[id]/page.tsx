@@ -60,7 +60,9 @@ function ReviewArticle({ params} : {params: {id: string} }) {
             </div>
 
             <div className="flex justify-center items-center">
-                <PdfReview filePath={`${process.env.NEXT_PUBLIC_API_URL}/articles/article/${params.id}`}></PdfReview>
+                {/* <PdfReview filePath={`${process.env.NEXT_PUBLIC_API_URL}/articles/article/${params.id}`}></PdfReview> */}
+                <PdfReview filePath={`https://arxiv.org/pdf/quant-ph/0410100.pdf`}></PdfReview>
+
             </div>
 
         </div>

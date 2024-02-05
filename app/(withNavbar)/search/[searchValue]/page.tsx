@@ -84,7 +84,7 @@ function Page() {
                 },
             });
             const data = await res.json();
-            console.log(data);
+            setArticleList(data);
         }
         fetchArticles();
     }, [searchValue])

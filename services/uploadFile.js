@@ -23,4 +23,5 @@ class UploadArticleService {
     // }
 }
 
-export default new UploadArticleService();
+const upload = new UploadArticleService();
+export default upload;

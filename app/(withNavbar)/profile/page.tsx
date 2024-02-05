@@ -165,7 +165,7 @@ const ProfilePage = () => {
                 <div className='border-2 border-solid border-gray-300 rounded-md shadow-sm pl-7 my-1 mx-8 flex flex-row justify-between items-center'>
                     <div>
                         <p className='font-bold text-lg text-gray-500'> Favorites </p>
-                        <p className=' font-medium text-md'> Read your favorite artciles from <Link showAnchorIcon href='/profile/favorites'>Here</Link> </p>
+                        <p className=' font-medium text-md'> Read your favorite articles from <Link showAnchorIcon href='/profile/favorites'>Here</Link> </p>
                     </div>
                     {/* */}
 

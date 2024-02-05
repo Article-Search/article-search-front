@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import upload from '@/public/assets/icons/upload.svg'
 import Image from 'next/image';
+import uploadfunction from "@/services/uploadFile"
 
 interface FileWithPreview extends File {
     preview?: string;
@@ -16,7 +17,21 @@ const FileUpload = () => {
         preview: URL.createObjectURL(file)
         }));
         setUploadedFiles(acceptedFiles);
-      // TODO : handle files with api route
+        console.log("a file has been uploaded")
+        /////////
+        // 
+        uploadfunction.upload(uploadedFiles, (progressEvent: { loaded: number; total: number; }) => {
+            const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            console.log(`File upload progress: ${progress}%`);
+        })
+        .then((response: any) => {
+            console.log('File upload response:', response);
+            // TODO: Handle the response from the server
+        })
+        .catch((error: any) => {
+            console.error('File upload error:', error);
+            // TODO: Handle the error
+        });
     },
     });
 
@@ -29,11 +44,11 @@ const FileUpload = () => {
         </div>
         {// TODO : change this behaviour and show a toast at the end of the upload if files acceoted or not
         }
-        <ul>
+        {/* <ul>
         {uploadedFiles.map((file) => (
             <li key={file.name}>{file.name}</li>
         ))}
-        </ul>
+        </ul> */}
     </div>
     );
 };

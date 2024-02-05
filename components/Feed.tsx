@@ -15,6 +15,9 @@ import {Article} from "@/types"
 import Image from "next/image";
 import {useState, Fragment} from "react";
 import {motion} from "framer-motion";
+const API_URL = process.env.API_URL || 'http://localhost:8000';
+import { toast } from "sonner";
+
 
 interface FeedProps {
     articles: Article[];
@@ -22,8 +25,26 @@ interface FeedProps {
 }
 
 export default function Feed({articles, documentImagePath}: FeedProps) {
+    const accessToken = localStorage.getItem('accessToken');
     const [cardIndex, setCardIndex] = useState<number>(0)
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const handleAddToFavorites=async(articleid : string)=> {
+        const res = await fetch(`${API_URL}/profile/addToFavorites/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+                article_id: articleid,
+            })
+        });
+
+        const data = await res.json();
+        if(res.ok){
+            toast.success("added to favorites");
+        }
+    }
     return (
         <div className="flex flex-col justify-center gap-12">
             <ScrollShadow className="ScrollShadow w-screen max-w-4xl h-[61vh] overscroll-x-none">
@@ -55,11 +76,11 @@ export default function Feed({articles, documentImagePath}: FeedProps) {
                                             <div className="flex gap-2">
                                                 {article.keywords.slice(0, 3).map((keyword, index) => (
                                                     <Chip key={index} className="shrink-0 text-[#17C964] bg-[#E8FAF0]"
-                                                          variant="flat" size="md">{keyword}</Chip>
+                                                        variant="flat" size="md">{keyword}</Chip>
                                                 ))}
                                                 {article.keywords.length > 3 && (
                                                     <Chip className="shrink-0 text-[#17C964] bg-[#E8FAF0]"
-                                                          variant="flat" size="md">+{article.keywords.length - 3}</Chip>
+                                                        variant="flat" size="md">+{article.keywords.length - 3}</Chip>
                                                 )}
                                             </div>
                                             <p className="text-gray-400 text-small line-clamp-2">
@@ -81,7 +102,7 @@ export default function Feed({articles, documentImagePath}: FeedProps) {
                                 <h1 className="text-4xl font-bold ">
                                     {articles[cardIndex].title}
                                 </h1>
-                                <Button isIconOnly disableRipple className="bg-transparent">
+                                <Button isIconOnly disableRipple className="bg-transparent" onClick={()=>{handleAddToFavorites(articles[cardIndex].id)}}>
                                     <motion.div whileTap={{scale: 1.2}}>
                                         <Image src="/assets/icons/star.svg" alt="Star" width={35} height={35}/>
                                     {/*    TODO: use a filled image if it's already in the user's favorite articles*/}
@@ -93,7 +114,7 @@ export default function Feed({articles, documentImagePath}: FeedProps) {
                                     <div className="flex gap-4 w-full flex-wrap">
                                         {articles[cardIndex].keywords.map((keyword, index) => (
                                             <Chip key={index} className="shrink-0 text-[#17C964] bg-[#E8FAF0] text-xl"
-                                                  variant="flat" size="md">{keyword}</Chip>
+                                                variant="flat" size="md">{keyword}</Chip>
                                         ))}
                                     </div>
                                     <div className="flex flex-col gap-3">

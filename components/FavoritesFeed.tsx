@@ -15,6 +15,9 @@ import {Article} from "@/types"
 import Image from "next/image";
 import {useState, Fragment} from "react";
 import {motion} from "framer-motion";
+import { toast } from "sonner";
+const API_URL = process.env.API_URL || 'http://localhost:8000';
+
 
 interface FeedProps {
     articles: Article[];
@@ -24,6 +27,24 @@ interface FeedProps {
 export default function FavoritesFeed({articles, documentImagePath}: FeedProps) {
     const [cardIndex, setCardIndex] = useState<number>(0)
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
+    const [favorites , setFavorites] = useState<Article[]>([]);
+    const handleDelete = async (id : string)=>{
+        const accessToken = localStorage.getItem('accessToken');
+
+        const res = await fetch(`${API_URL}/profile/deletefromfavorites/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`,
+            }
+        });
+        if(res.ok){
+            toast.success("deleted successfully");
+        }
+    }
+
+
+
     return (
         <div className="flex flex-col justify-center gap-12">
             <ScrollShadow className="ScrollShadow w-screen max-w-4xl h-[69vh] overscroll-x-none">
@@ -69,7 +90,7 @@ export default function FavoritesFeed({articles, documentImagePath}: FeedProps) 
                                         <div className="flex flex-col justify-center items-center">
                                             <Button className="bg-transparent" isIconOnly disableRipple aria-label="Trash"
                                                     onPress={e => {
-                                                        // TODO: implement the logic of deleting the article from the user's favorites
+                                                        handleDelete(article.id);
                                                         console.log("deleted")
                                                     }}
                                             >
