@@ -13,10 +13,11 @@ export interface Article {
     // TODO: decided whether it'll be elasticsearch ID or postgres ID
     id: string;
     title: string;
+    validated: boolean;
     content: string;
     summary: string;
     authors: Author[]
-    institutions: string[];
+    institutions: {name: string}[];
     publishDate: Date;
     keywords: string[];
     pdfUrl: string

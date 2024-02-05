@@ -2,14 +2,13 @@
 import SearchInput from "@/components/SearchInput";
 import Feed from "@/components/Feed";
 import { useParams } from "next/navigation";
-import {articles} from "@/constants";
 import Image from "next/image";
 import {Popover, PopoverTrigger, PopoverContent, Button, Input, Select, SelectItem} from "@nextui-org/react";
 import isAuth from "@/components/isAuth";
 import { useEffect, useState } from "react";
 import { Article } from "@/types";
 const API_URL = process.env.API_URL || 'http://localhost:8000';
-
+import { articles } from '@/constants'
 
 function Page() {
     const params = useParams<{ searchValue: string}>()
@@ -17,7 +16,7 @@ function Page() {
     const accessToken = localStorage.getItem('accessToken');
 
 
-    const [articleList, setArticleList] = useState<Article[]>(articles);
+    const [articleList, setArticleList] = useState<Article[]>([]);
     const [authors, setAuthors] = useState('');
     const [institutions, setInstitutions] = useState('');
     const [keywords, setKeywords] = useState('');
@@ -76,7 +75,7 @@ function Page() {
 
     useEffect(() => {
         const fetchArticles = async () => {
-            const res = await fetch(`${API_URL}/articles/?search=${searchValue}`, {
+            const res = await fetch(`${API_URL}/articles/article-search/${searchValue}/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -84,18 +83,18 @@ function Page() {
                 },
             });
             const data = await res.json();
-            setArticleList(data);
+            setArticleList(data.results);
         }
         fetchArticles();
     }, [searchValue])
-
     
+    console.log('articles state: ', articleList)
     return (
         <section className="flex flex-col items-center gap-9 mt-16">
                 <div className="flex flex-col gap-11">
                     <SearchInput/>
                     <div className="flex justify-between items-center px-3">
-                        <p className="text-xl"><b>{articles.length}</b> Results found for <b>{searchValue}</b></p>
+                        <p className="text-xl"><b>{articleList ? articleList.length : 0}</b> Results found for <b>{searchValue}</b></p>
                         <Popover placement="bottom" showArrow offset={10}>
                             <PopoverTrigger>
                                 <Button isIconOnly aria-label="Filter" radius="full" size="lg" variant="flat" className="button-3d-effect">
@@ -145,7 +144,8 @@ function Page() {
                     </Popover>
                     </div>
                 </div>
-            <Feed articles={articleList} documentImagePath="/assets/icons/document.svg" />
+            {/* <Feed articles={articleList} documentImagePath="/assets/icons/document.svg" /> */}
+            <Feed articles={articles} documentImagePath="/assets/icons/document.svg" />
         </section>
     );
 }

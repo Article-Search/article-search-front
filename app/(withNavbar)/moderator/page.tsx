@@ -15,7 +15,7 @@ function Page() {
 
     useEffect(() => {
         const fetchArticles = async () => {
-            const res = await fetch(`${API_URL}/articles/?validated=False`, {
+            const res = await fetch(`${API_URL}/articles/?validated=false`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ function Page() {
                 },
             });
             const data = await res.json();
-            setArticleRevList(data.articles);
+            setArticleRevList(data.results);
         }
         fetchArticles();
     }, [])
@@ -35,7 +35,6 @@ function Page() {
                 <Image src={wavingHand} alt='waving hand' height={70} width={70} className=' inline-block mr-3'></Image> Welcome Back <span className='purple_gradient'>Moderator</span>
             {/*  TODO: change it to get the name of the moderator  */}
             </h1>
-
 
             <div className="flex flex-col items-center justify-center">
             <h2 className="text-3xl font-medium mb-4">Articles you need to review</h2>
